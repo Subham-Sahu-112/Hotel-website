@@ -1,0 +1,483 @@
+/* Travel More Spend Less Section */
+.travel-more-spend-less {
+  background-color: #ffffff;
+  padding: 60px 0;
+}
+
+.travel-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-header {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Genius Membership Card */
+.genius-membership-card {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 24px;
+  transition: box-shadow 0.3s ease;
+}
+
+.genius-membership-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.genius-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.genius-text {
+  flex: 1;
+}
+
+.genius-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+.genius-description {
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.genius-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.sign-in-btn {
+  background: #0073e6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sign-in-btn:hover {
+  background: #005bb5;
+}
+
+.register-btn {
+  background: transparent;
+  color: #0073e6;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.register-btn:hover {
+  background: rgba(0, 115, 230, 0.1);
+}
+
+.genius-icon {
+  flex-shrink: 0;
+}
+
+.genius-badge {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #0073e6 0%, #004494 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 115, 230, 0.3);
+}
+
+.genius-badge::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: #febb02;
+  border-radius: 50%;
+}
+
+.genius-badge::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 28px;
+  height: 28px;
+  border: 2px dashed #febb02;
+  border-radius: 50%;
+  animation: rotate 8s linear infinite;
+}
+
+.genius-logo {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Vacation Rentals Card */
+.vacation-rentals-card {
+  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+  border-radius: 20px;
+  padding: 40px;
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.vacation-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.vacation-text {
+  flex: 1;
+  max-width: 400px;
+}
+
+.vacation-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  line-height: 1.3;
+}
+
+.discover-btn {
+  background: white;
+  color: #1e88e5;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.discover-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Home Scene Illustration */
+.vacation-illustration {
+  flex-shrink: 0;
+  width: 300px;
+  height: 200px;
+  position: relative;
+}
+
+.home-scene {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Chair */
+.chair {
+  position: absolute;
+  left: 50px;
+  top: 60px;
+  z-index: 3;
+}
+
+.chair-back {
+  width: 60px;
+  height: 80px;
+  background: #febb02;
+  border-radius: 30px 30px 0 0;
+  position: relative;
+}
+
+.chair-seat {
+  width: 70px;
+  height: 40px;
+  background: #febb02;
+  border-radius: 10px;
+  position: absolute;
+  top: 50px;
+  left: -5px;
+}
+
+.chair-legs {
+  position: absolute;
+  top: 90px;
+  left: 5px;
+}
+
+.chair-legs::before,
+.chair-legs::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 30px;
+  background: #333;
+  border-radius: 2px;
+}
+
+.chair-legs::before {
+  left: 0;
+}
+
+.chair-legs::after {
+  left: 50px;
+}
+
+/* Table */
+.table {
+  position: absolute;
+  right: 60px;
+  top: 80px;
+  z-index: 2;
+}
+
+.table-top {
+  width: 80px;
+  height: 50px;
+  background: #003580;
+  border-radius: 8px;
+  position: relative;
+}
+
+.table-leg {
+  width: 6px;
+  height: 40px;
+  background: #333;
+  position: absolute;
+  left: 37px;
+  top: 50px;
+  border-radius: 3px;
+}
+
+/* Plant */
+.plant {
+  position: absolute;
+  right: 80px;
+  top: 50px;
+  z-index: 4;
+}
+
+.pot {
+  width: 20px;
+  height: 25px;
+  background: #8d6e63;
+  border-radius: 0 0 10px 10px;
+}
+
+.leaves {
+  width: 30px;
+  height: 25px;
+  background: #4caf50;
+  border-radius: 15px;
+  position: absolute;
+  top: -15px;
+  left: -5px;
+}
+
+.leaves::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 15px;
+  background: #4caf50;
+  border-radius: 10px;
+  top: -5px;
+  left: 5px;
+}
+
+/* Decorative Elements */
+.decorative-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.blue-circle {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  top: 20px;
+  right: 20px;
+}
+
+.yellow-circle {
+  width: 25px;
+  height: 25px;
+  background: rgba(254, 187, 2, 0.3);
+  bottom: 40px;
+  left: 30px;
+}
+
+.wave-pattern {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0px,
+    rgba(255, 255, 255, 0.1) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .travel-more-spend-less {
+    padding: 40px 0;
+  }
+  
+  .travel-container {
+    padding: 0 16px;
+  }
+  
+  .section-title {
+    font-size: 26px;
+  }
+  
+  .genius-membership-card {
+    padding: 24px;
+  }
+  
+  .genius-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+  }
+  
+  .genius-title {
+    font-size: 20px;
+  }
+  
+  .genius-buttons {
+    justify-content: center;
+  }
+  
+  .vacation-rentals-card {
+    padding: 32px 24px;
+  }
+  
+  .vacation-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 32px;
+  }
+  
+  .vacation-title {
+    font-size: 24px;
+  }
+  
+  .vacation-illustration {
+    width: 250px;
+    height: 150px;
+  }
+  
+  .chair {
+    left: 30px;
+    top: 40px;
+    transform: scale(0.8);
+  }
+  
+  .table {
+    right: 40px;
+    top: 60px;
+    transform: scale(0.8);
+  }
+  
+  .plant {
+    right: 60px;
+    top: 30px;
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 22px;
+  }
+  
+  .genius-membership-card {
+    padding: 20px;
+  }
+  
+  .genius-title {
+    font-size: 18px;
+  }
+  
+  .genius-description {
+    font-size: 14px;
+  }
+  
+  .genius-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .sign-in-btn,
+  .register-btn {
+    width: 100%;
+  }
+  
+  .vacation-rentals-card {
+    padding: 24px 20px;
+  }
+  
+  .vacation-title {
+    font-size: 20px;
+  }
+  
+  .vacation-illustration {
+    width: 200px;
+    height: 120px;
+  }
+}

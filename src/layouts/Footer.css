@@ -1,0 +1,312 @@
+/* Footer Styles */
+.footer {
+  background-color: #f5f5f5;
+  border-top: 1px solid #e0e0e0;
+  padding: 40px 0 20px 0;
+  margin-top: 60px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Footer Grid */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-link-item {
+  margin-bottom: 8px;
+}
+
+.footer-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #0073e6;
+  text-decoration: underline;
+}
+
+/* Currency Section */
+.currency-section {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.currency-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  width: fit-content;
+}
+
+.currency-selector:hover {
+  border-color: #0073e6;
+}
+
+.currency-flag {
+  font-size: 16px;
+}
+
+.currency-code {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-info {
+  flex: 1;
+  max-width: 600px;
+}
+
+.footer-description {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.footer-copyright {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Partner Logos */
+.partner-logos {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.partner-logo {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.logo {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* Individual Logo Styles */
+.booking-logo {
+  background: #0073e6;
+  color: white;
+}
+
+.priceline-logo {
+  background: #0066cc;
+  color: white;
+}
+
+.kayak-logo {
+  background: #ff690f;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.agoda-logo {
+  background: #ff1755;
+  color: white;
+  font-weight: 700;
+}
+
+.opentable-logo {
+  background: #da3743;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.opentable-logo::before {
+  content: "🍽";
+  font-size: 12px;
+}
+
+/* Logo Hover Effects */
+.partner-logo:hover .logo {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .partner-logos {
+    justify-content: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 32px 0 16px 0;
+  }
+  
+  .footer-container {
+    padding: 0 16px;
+  }
+  
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  
+  .footer-section-title {
+    font-size: 15px;
+  }
+  
+  .footer-link {
+    font-size: 13px;
+  }
+  
+  .currency-section {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+  }
+  
+  .footer-bottom {
+    gap: 20px;
+  }
+  
+  .partner-logos {
+    gap: 12px;
+  }
+  
+  .logo {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .footer-section-title {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .footer-link {
+    font-size: 12px;
+  }
+  
+  .footer-link-item {
+    margin-bottom: 6px;
+  }
+  
+  .partner-logos {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .partner-logo {
+    width: 100%;
+  }
+  
+  .logo {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .footer-description,
+  .footer-copyright {
+    font-size: 12px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .footer-link,
+  .currency-selector,
+  .logo {
+    transition: none;
+  }
+  
+  .partner-logo:hover .logo {
+    transform: none;
+  }
+}
+
+/* Focus states for accessibility */
+.footer-link:focus,
+.currency-selector:focus {
+  outline: 2px solid #0073e6;
+  outline-offset: 2px;
+}
+
+.logo:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}

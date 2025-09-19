@@ -1,0 +1,427 @@
+/* Trip Planner and Deals Section */
+.trip-planner-deals {
+  background-color: #ffffff;
+  padding: 60px 0;
+}
+
+.trip-deals-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Common Section Styles */
+.trip-planner-section,
+.weekend-deals-section {
+  margin-bottom: 80px;
+}
+
+.weekend-deals-section {
+  margin-bottom: 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.section-header-text {
+  flex: 1;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.carousel-controls {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.carousel-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 20px;
+  font-weight: bold;
+  color: #666;
+}
+
+.carousel-btn:hover {
+  border-color: #0073e6;
+  color: #0073e6;
+  box-shadow: 0 2px 8px rgba(0, 115, 230, 0.2);
+}
+
+/* Trip Categories */
+.trip-categories {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.category-tab {
+  padding: 12px 20px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.category-tab:hover {
+  border-color: #0073e6;
+  color: #0073e6;
+}
+
+.category-tab.active {
+  background: #0073e6;
+  border-color: #0073e6;
+  color: white;
+}
+
+/* Trip Destinations Grid */
+.trip-destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.trip-destination-card {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.trip-destination-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.trip-destination-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.trip-destination-card:hover .trip-destination-image {
+  transform: scale(1.05);
+}
+
+.trip-destination-info {
+  padding: 16px;
+}
+
+.trip-destination-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.trip-destination-distance {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+/* Weekend Deals Grid */
+.weekend-deals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.weekend-deal-card {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.weekend-deal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.deal-image-container {
+  position: relative;
+  height: 200px;
+}
+
+.deal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.weekend-deal-card:hover .deal-image {
+  transform: scale(1.05);
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.favorite-btn:hover {
+  background: white;
+  color: #ff4757;
+  transform: scale(1.1);
+}
+
+.deal-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #0073e6;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.deal-info {
+  padding: 16px;
+}
+
+.deal-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.deal-location {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 12px 0;
+}
+
+.deal-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating-score {
+  background: #0073e6;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 32px;
+  text-align: center;
+}
+
+.rating-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rating-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.rating-reviews {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .trip-planner-deals {
+    padding: 40px 0;
+  }
+  
+  .trip-deals-container {
+    padding: 0 16px;
+  }
+  
+  .trip-destinations-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .weekend-deals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .section-title {
+    font-size: 26px;
+  }
+  
+  .trip-planner-section,
+  .weekend-deals-section {
+    margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .carousel-controls {
+    align-self: flex-end;
+  }
+  
+  .trip-destinations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .weekend-deals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .section-title {
+    font-size: 22px;
+  }
+  
+  .trip-categories {
+    gap: 8px;
+  }
+  
+  .category-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .trip-destination-image {
+    height: 140px;
+  }
+  
+  .deal-image-container {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trip-destinations-grid,
+  .weekend-deals-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: 20px;
+  }
+  
+  .section-subtitle {
+    font-size: 14px;
+  }
+  
+  .trip-categories {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  
+  .category-tab {
+    flex-shrink: 0;
+  }
+  
+  .trip-destination-image {
+    height: 160px;
+  }
+  
+  .deal-image-container {
+    height: 200px;
+  }
+  
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+  
+  .trip-planner-section,
+  .weekend-deals-section {
+    margin-bottom: 50px;
+  }
+}
+
+/* Loading animations */
+.trip-destination-card,
+.weekend-deal-card {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger animation delays */
+.trip-destination-card:nth-child(1) { animation-delay: 0.1s; }
+.trip-destination-card:nth-child(2) { animation-delay: 0.15s; }
+.trip-destination-card:nth-child(3) { animation-delay: 0.2s; }
+.trip-destination-card:nth-child(4) { animation-delay: 0.25s; }
+.trip-destination-card:nth-child(5) { animation-delay: 0.3s; }
+.trip-destination-card:nth-child(6) { animation-delay: 0.35s; }
+
+.weekend-deal-card:nth-child(1) { animation-delay: 0.1s; }
+.weekend-deal-card:nth-child(2) { animation-delay: 0.2s; }
+.weekend-deal-card:nth-child(3) { animation-delay: 0.3s; }
+.weekend-deal-card:nth-child(4) { animation-delay: 0.4s; }

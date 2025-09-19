@@ -1,0 +1,103 @@
+.membership-banner {
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 40px;
+}
+
+.banner-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 50%, #8e24aa 100%);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(74, 20, 140, 0.3);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.banner-icon {
+  font-size: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-text {
+  flex: 1;
+}
+
+.banner-message {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.sign-in-button {
+  background: white;
+  color: #4a148c;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sign-in-button:hover {
+  background: #f5f5f5;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .banner-container {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .banner-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .banner-message {
+    font-size: 14px;
+  }
+  
+  .sign-in-button {
+    width: 100%;
+    padding: 14px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .membership-banner {
+    padding: 0 10px;
+  }
+  
+  .banner-container {
+    padding: 16px;
+  }
+  
+  .banner-icon {
+    font-size: 20px;
+    padding: 8px;
+  }
+}
