@@ -1,6 +1,6 @@
 /* Pricing Panel Styles */
 .pricing {
-  padding: 0;
+  padding: 2rem;
 }
 
 /* Header */
@@ -8,7 +8,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 32px;
+  margin-bottom: 1rem;
 }
 
 .header-left {
@@ -54,7 +54,7 @@
 
 /* Property Filter */
 .property-filter {
-  margin-bottom: 24px;
+  margin-bottom: 1rem;
 }
 
 .property-select {
@@ -79,6 +79,7 @@
   border-radius: 12px 12px 0 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 0;
+  margin-top: 1rem;
 }
 
 .tab {
@@ -110,7 +111,6 @@
   padding: 24px;
   border-radius: 0 0 12px 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 32px;
 }
 
 /* Rates Grid */
@@ -481,7 +481,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-  margin-top: 32px;
+  margin-top: 1rem;
 }
 
 .stat-card {

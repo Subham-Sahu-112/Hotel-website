@@ -10,42 +10,42 @@ const VendorSidebar = () => {
     {
       icon: '📊',
       label: 'Dashboard',
-      path: '/vendor/dashboard'
+      path: '/vender/dashboard'
     },
     {
       icon: '🏨',
       label: 'Properties',
-      path: '/vendor/properties'
+      path: '/vender/properties'
     },
     {
       icon: '📅',
       label: 'Bookings',
-      path: '/vendor/bookings'
+      path: '/vender/bookings'
     },
     {
       icon: '💰',
       label: 'Pricing',
-      path: '/vendor/pricing'
+      path: '/vender/pricing'
     },
     {
       icon: '💳',
       label: 'Payments',
-      path: '/vendor/payments'
+      path: '/vender/payments'
     },
     {
       icon: '⭐',
       label: 'Reviews',
-      path: '/vendor/reviews'
+      path: '/vender/reviews'
     },
     {
       icon: '📈',
       label: 'Analytics',
-      path: '/vendor/analytics'
+      path: '/vender/analytics'
     },
     {
       icon: '⚙️',
       label: 'Settings',
-      path: '/vendor/settings'
+      path: '/vender/settings'
     }
   ];
 

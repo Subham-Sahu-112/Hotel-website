@@ -31,7 +31,7 @@ const Analytics = () => {
 
   return (
     <VendorLayout>
-      <div style={{ padding: '0' }}>
+      <div style={{ padding: '2rem' }}>
         <div style={{ marginBottom: '32px' }}>
           <h1 style={{ fontSize: '2rem', fontWeight: '600', color: '#1f2937', margin: '0 0 8px 0' }}>
             Analytics & Reports

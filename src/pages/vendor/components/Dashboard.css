@@ -2,7 +2,6 @@
 .dashboard {
   padding: 15px 20px;
   background-color: #f8fafc;
-  min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
@@ -60,14 +59,14 @@
 }
 
 /* Stats Grid */
-.stats-grid {
+.vender-dash-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   margin-bottom: 20px;
 }
 
-.stat-card {
+.vender-dash-stat-card {
   background: white;
   border-radius: 12px;
   padding: 24px;
@@ -75,68 +74,76 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.stat-card:hover {
+.vender-dash-stat-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.stat-header {
+.vender-dash-stat-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 10px;
   margin-bottom: 5px;
 }
 
-.stat-title {
-  font-size: 14px;
+.vender-dash-stat-title {
+  font-size: 15px;
   color: #6b7280;
   font-weight: 500;
 }
 
-.stat-icon {
+.vender-dash-stat-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 20px;
 }
 
-.stat-card.blue .stat-icon {
-  background: #dbeafe;
+.vender-dash-stat-card.blue .vender-dash-stat-icon {
+  background-color: #dbeafe;
+  color: #006eff;
   padding: 8px;
   border-radius: 8px;
 }
 
-.stat-card.green .stat-icon {
-  background: #d1fae5;
+.vender-dash-stat-card.green .vender-dash-stat-icon {
+  background-color: #00ff2a;
+  color: #059100;
   padding: 8px;
   border-radius: 8px;
 }
 
-.stat-card.orange .stat-icon {
-  background: #fed7aa;
+.vender-dash-stat-card.orange .vender-dash-stat-icon {
+  background-color: #fed7aa;
+  color: #ff8e0e;
   padding: 8px;
   border-radius: 8px;
 }
 
-.stat-card.purple .stat-icon {
-  background: #e9d5ff;
+.vender-dash-stat-card.purple .vender-dash-stat-icon {
+  background-color: #b269ff;
+  color: #e9d5ff;
   padding: 8px;
   border-radius: 8px;
 }
 
-.stat-value {
-  font-size: 1.8rem;
+.vender-dash-stat-value {
+  font-size: 1.5rem;
   font-weight: 700;
   color: #1f2937;
 }
 
-.stat-change {
+.vender-dash-stat-change {
   font-size: 13px;
   font-weight: 500;
 }
 
-.stat-change.positive {
+.vender-dash-stat-change.positive {
   color: #10b981;
 }
 
-.stat-change.negative {
+.vender-dash-stat-change.negative {
   color: #ef4444;
 }
 
@@ -316,6 +323,60 @@
 .view-all-notifications:hover {
   background-color: #f9fafb;
   border-color: #d1d5db;
+}
+
+/* Footer Buttons */
+.dashboard-footer {
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
+  margin-top: 1.5rem;
+}
+
+.dashboard-footer h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dash-action-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-action-btn {
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  color: white;
+  background-color: #3b82f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.dash-action-btn:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.dash-action-btn p {
+  margin: 0;
+  font-size: 1rem;
 }
 
 /* Responsive Design */

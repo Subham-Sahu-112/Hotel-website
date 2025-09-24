@@ -2,13 +2,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import LandingPage from "./pages/landing/LandingPage";
 import Vendor from "./pages/vendor/vendor";
+import VendorRegister from "./pages/register/VendorRegister";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/vendor/*" element={<Vendor />} />
+        <Route path="/vender-register" element={<VendorRegister />} />
+        <Route path="/vender/*" element={<Vendor />} />
       </Routes>
     </Router>
   );

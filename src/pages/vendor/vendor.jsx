@@ -11,15 +11,15 @@ import Settings from "./components/Settings";
 export default function Vendor() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/vendor/dashboard" replace />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/properties" element={<Properties />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/payments" element={<Payments />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/" element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="properties" element={<Properties />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="pricing" element={<Pricing />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="reviews" element={<Reviews />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="settings" element={<Settings />} />
             
             {/* Fallback for unmatched routes */}
             <Route path="*" element={<Navigate to="/vendor/dashboard" replace />} />

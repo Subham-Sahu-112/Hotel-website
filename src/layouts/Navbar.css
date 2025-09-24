@@ -88,6 +88,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
 }
 
 .nav-link-item {
@@ -107,13 +108,19 @@ nav {
 }
 
 .register-btn {
-  background: rgba(255, 255, 255, 0.1);
+  width: 150px;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  padding: 8px 16px;
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  padding: 8px 16px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -122,13 +129,58 @@ nav {
   background: rgba(255, 255, 255, 0.2);
 }
 
+.down {
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.register-btn p {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.reg-dropdown-menu {
+  border: 2px solid white;
+  border-radius: 0.4rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 48px;
+  left: 27%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.reg-dropdown-item {
+  width: 100%;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  padding: 0.5rem 3rem;
+  transition: all 0.2s ease;
+}
+
+.reg-dropdown-item:hover {
+  background-color: white;
+  color: #003580;
+}
+
 .sign-in-btn {
   background: white;
   border: none;
   color: #003580;
   padding: 8px 16px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;

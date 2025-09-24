@@ -1,6 +1,6 @@
 /* Properties Panel Styles */
 .properties {
-  padding: 0;
+  padding: 2rem;
 }
 
 /* Header */
@@ -46,19 +46,23 @@
 /* Filters */
 .properties-filters {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
   gap: 16px;
   margin-bottom: 24px;
-  flex-wrap: wrap;
 }
 
-.search-container,
-.filter-container {
-  flex: 1;
-  min-width: 200px;
+.prop-search-container,
+.prop-filter-container {
+  width: 100%;
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
 }
 
-.search-input,
-.filter-select {
+.prop-search-input,
+.prop-filter-select {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid #e5e7eb;
@@ -67,8 +71,8 @@
   background: white;
 }
 
-.search-input:focus,
-.filter-select:focus {
+.prop-search-input:focus,
+.prop-filter-select:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
@@ -79,7 +83,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
-  margin-bottom: 32px;
+  margin-top: 20px;
 }
 
 .property-card {
@@ -265,11 +269,11 @@
 .properties-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  gap: 24px;
   margin-top: 32px;
 }
 
-.stat-card {
+.prop-stat-card {
   background: white;
   padding: 20px;
   border-radius: 12px;
@@ -279,7 +283,7 @@
   gap: 16px;
 }
 
-.stat-icon {
+.prop-stat-icon {
   font-size: 24px;
   width: 48px;
   height: 48px;
@@ -290,18 +294,18 @@
   justify-content: center;
 }
 
-.stat-info {
+.prop-stat-info {
   flex: 1;
 }
 
-.stat-number {
+.prop-stat-number {
   font-size: 1.5rem;
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 4px;
 }
 
-.stat-label {
+.prop-stat-label {
   font-size: 13px;
   color: #6b7280;
 }

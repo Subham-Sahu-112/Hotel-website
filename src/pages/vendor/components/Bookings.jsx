@@ -148,33 +148,33 @@ const Bookings = () => {
             <p className="bookings-subtitle">Manage your hotel reservations and guest information</p>
           </div>
           <div className="header-stats">
-            <div className="stat-item">
-              <span className="stat-number">{bookings.length}</span>
-              <span className="stat-label">Total Bookings</span>
+            <div className="book-stat-item">
+              <span className="book-stat-number">{bookings.length}</span>
+              <span className="book-stat-label">Total Bookings</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-number">${totalRevenue.toLocaleString()}</span>
-              <span className="stat-label">Revenue</span>
+            <div className="book-stat-item">
+              <span className="book-stat-number">${totalRevenue.toLocaleString()}</span>
+              <span className="book-stat-label">Revenue</span>
             </div>
           </div>
         </div>
 
         {/* Filters and Search */}
         <div className="bookings-filters">
-          <div className="search-container">
+          <div className="book-search-container">
             <input
               type="text"
               placeholder="Search bookings, guests, properties..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
+              className="book-search-input"
             />
           </div>
-          <div className="filter-container">
+          <div className="book-filter-container">
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="filter-select"
+              className="book-filter-select"
             >
               <option value="all">All Status</option>
               <option value="confirmed">Confirmed</option>

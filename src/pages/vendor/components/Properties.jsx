@@ -1,78 +1,80 @@
-import React, { useState } from 'react';
-import VendorLayout from './VendorLayout';
-import './Properties.css';
+import React, { useState } from "react";
+import VendorLayout from "./VendorLayout";
+import "./Properties.css";
 
 const Properties = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const properties = [
     {
       id: 1,
-      name: 'Sunset Villa Resort',
-      type: 'Villa',
-      location: 'Maldives',
-      status: 'active',
+      name: "Sunset Villa Resort",
+      type: "Villa",
+      location: "Maldives",
+      status: "active",
       rooms: 12,
-      price: '$450/night',
+      price: "$450/night",
       rating: 4.8,
       bookings: 156,
-      image: '/property1.jpg'
+      image: "/scenery.jpg",
     },
     {
       id: 2,
-      name: 'Ocean View Hotel',
-      type: 'Hotel',
-      location: 'Miami Beach',
-      status: 'active',
+      name: "Ocean View Hotel",
+      type: "Hotel",
+      location: "Miami Beach",
+      status: "active",
       rooms: 45,
-      price: '$320/night',
+      price: "$320/night",
       rating: 4.6,
       bookings: 89,
-      image: '/property2.jpg'
+      image: "/scenery2.jpg",
     },
     {
       id: 3,
-      name: 'Mountain Lodge',
-      type: 'Lodge',
-      location: 'Colorado',
-      status: 'inactive',
+      name: "Mountain Lodge",
+      type: "Lodge",
+      location: "Colorado",
+      status: "inactive",
       rooms: 8,
-      price: '$280/night',
+      price: "$280/night",
       rating: 4.5,
       bookings: 34,
-      image: '/property3.jpg'
+      image: "/scenery3.jpg",
     },
     {
       id: 4,
-      name: 'City Center Suites',
-      type: 'Apartment',
-      location: 'New York',
-      status: 'active',
+      name: "City Center Suites",
+      type: "Apartment",
+      location: "New York",
+      status: "active",
       rooms: 24,
-      price: '$380/night',
+      price: "$380/night",
       rating: 4.7,
       bookings: 112,
-      image: '/property4.jpg'
-    }
+      image: "/scenery4.jpg",
+    },
   ];
 
-  const filteredProperties = properties.filter(property => {
-    const matchesSearch = property.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         property.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = filterStatus === 'all' || property.status === filterStatus;
+  const filteredProperties = properties.filter((property) => {
+    const matchesSearch =
+      property.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.location.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter =
+      filterStatus === "all" || property.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active':
-        return '#10b981';
-      case 'inactive':
-        return '#f59e0b';
+      case "active":
+        return "#10b981";
+      case "inactive":
+        return "#f59e0b";
       default:
-        return '#6b7280';
+        return "#6b7280";
     }
   };
 
@@ -83,9 +85,11 @@ const Properties = () => {
         <div className="properties-header">
           <div className="header-left">
             <h1 className="properties-title">Properties</h1>
-            <p className="properties-subtitle">Manage your hotel properties and listings</p>
+            <p className="properties-subtitle">
+              Manage your hotel properties and listings
+            </p>
           </div>
-          <button 
+          <button
             className="add-property-btn"
             onClick={() => setIsAddModalOpen(true)}
           >
@@ -95,25 +99,54 @@ const Properties = () => {
 
         {/* Filters and Search */}
         <div className="properties-filters">
-          <div className="search-container">
+          <div className="prop-search-container">
             <input
               type="text"
               placeholder="Search properties..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
+              className="prop-search-input"
             />
           </div>
-          <div className="filter-container">
+          <div className="prop-filter-container">
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="filter-select"
+              className="prop-filter-select"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
+          </div>
+        </div>
+
+        {/* Stats Summary */}
+        <div className="properties-stats">
+          <div className="prop-stat-card">
+            <div className="prop-stat-icon">🏨</div>
+            <div className="prop-stat-info">
+              <div className="prop-stat-number">{properties.length}</div>
+              <div className="prop-stat-label">Total Properties</div>
+            </div>
+          </div>
+          <div className="prop-stat-card">
+            <div className="prop-stat-icon">🛏️</div>
+            <div className="prop-stat-info">
+              <div className="prop-stat-number">
+                {properties.reduce((sum, p) => sum + p.rooms, 0)}
+              </div>
+              <div className="prop-stat-label">Total Rooms</div>
+            </div>
+          </div>
+          <div className="prop-stat-card">
+            <div className="prop-stat-icon">📊</div>
+            <div className="prop-stat-info">
+              <div className="prop-stat-number">
+                {properties.reduce((sum, p) => sum + p.bookings, 0)}
+              </div>
+              <div className="prop-stat-label">Total Bookings</div>
+            </div>
           </div>
         </div>
 
@@ -124,7 +157,7 @@ const Properties = () => {
               <div className="property-image">
                 <img src={property.image} alt={property.name} />
                 <div className="property-status">
-                  <span 
+                  <span
                     className="status-badge"
                     style={{ backgroundColor: getStatusColor(property.status) }}
                   >
@@ -132,29 +165,31 @@ const Properties = () => {
                   </span>
                 </div>
               </div>
-              
+
               <div className="property-content">
                 <div className="property-header">
                   <h3 className="property-name">{property.name}</h3>
-                  <div className="property-rating">
-                    ⭐ {property.rating}
-                  </div>
+                  <div className="property-rating">⭐ {property.rating}</div>
                 </div>
-                
+
                 <div className="property-details">
                   <div className="property-type">{property.type}</div>
-                  <div className="property-location">📍 {property.location}</div>
-                  <div className="property-rooms">🛏️ {property.rooms} rooms</div>
+                  <div className="property-location">
+                    📍 {property.location}
+                  </div>
+                  <div className="property-rooms">
+                    🛏️ {property.rooms} rooms
+                  </div>
                   <div className="property-price">{property.price}</div>
                 </div>
-                
+
                 <div className="property-stats">
                   <div className="stat">
                     <span className="stat-label">Total Bookings</span>
                     <span className="stat-value">{property.bookings}</span>
                   </div>
                 </div>
-                
+
                 <div className="property-actions">
                   <button className="action-btn view-btn">View</button>
                   <button className="action-btn edit-btn">Edit</button>
@@ -173,38 +208,6 @@ const Properties = () => {
             <p>Try adjusting your search or filters</p>
           </div>
         )}
-
-        {/* Stats Summary */}
-        <div className="properties-stats">
-          <div className="stat-card">
-            <div className="stat-icon">🏨</div>
-            <div className="stat-info">
-              <div className="stat-number">{properties.length}</div>
-              <div className="stat-label">Total Properties</div>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">✅</div>
-            <div className="stat-info">
-              <div className="stat-number">{properties.filter(p => p.status === 'active').length}</div>
-              <div className="stat-label">Active Properties</div>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🛏️</div>
-            <div className="stat-info">
-              <div className="stat-number">{properties.reduce((sum, p) => sum + p.rooms, 0)}</div>
-              <div className="stat-label">Total Rooms</div>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">📊</div>
-            <div className="stat-info">
-              <div className="stat-number">{properties.reduce((sum, p) => sum + p.bookings, 0)}</div>
-              <div className="stat-label">Total Bookings</div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Add Property Modal */}
@@ -213,7 +216,7 @@ const Properties = () => {
           <div className="modal">
             <div className="modal-header">
               <h2>Add New Property</h2>
-              <button 
+              <button
                 className="modal-close"
                 onClick={() => setIsAddModalOpen(false)}
               >
@@ -248,7 +251,11 @@ const Properties = () => {
                   <input type="text" placeholder="$0" />
                 </div>
                 <div className="form-actions">
-                  <button type="button" className="cancel-btn" onClick={() => setIsAddModalOpen(false)}>
+                  <button
+                    type="button"
+                    className="cancel-btn"
+                    onClick={() => setIsAddModalOpen(false)}
+                  >
                     Cancel
                   </button>
                   <button type="submit" className="submit-btn">
