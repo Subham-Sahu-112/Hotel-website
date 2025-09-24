@@ -433,7 +433,7 @@ const VendorRegister = () => {
                 </div>
 
                 <div className="ven-form-group">
-                  <label htmlFor="confirmPassword" className="form-label">
+                  <label htmlFor="confirmPassword" className="ven-form-label">
                     Confirm Password <span className="required">*</span>
                   </label>
                   <input
@@ -443,18 +443,18 @@ const VendorRegister = () => {
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     placeholder="Confirm your password"
-                    className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+                    className={`ven-form-input ${errors.confirmPassword ? 'error' : ''}`}
                   />
-                  {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+                  {errors.confirmPassword && <span className="ven-error-message">{errors.confirmPassword}</span>}
                 </div>
               </div>
             </div>
 
             {/* Terms & Conditions Section */}
-            <div className="form-section">
-              <div className="section-header">
-                <div className="section-icon">📄</div>
-                <h3 className="section-title">Terms & Conditions</h3>
+            <div className="ven-form-section">
+              <div className="ven-section-header">
+                <div className="ven-section-icon">📄</div>
+                <h3 className="ven-section-title">Terms & Conditions</h3>
               </div>
 
               <div className="checkbox-group">
