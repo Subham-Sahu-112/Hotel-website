@@ -200,7 +200,7 @@
 
 @media (max-width: 768px) {
   .section-header {
-    flex-direction: column;
+    flex-direction: row !important;
     gap: 16px;
     align-items: flex-start;
   }

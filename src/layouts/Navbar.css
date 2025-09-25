@@ -17,12 +17,12 @@ nav {
 }
 
 /* Logo */
-.logo {
+.nav-logo {
   display: flex;
   align-items: center;
 }
 
-.logo-text {
+.nav-logo-text {
   font-size: 28px;
   font-weight: 700;
   color: white;
@@ -247,7 +247,7 @@ nav {
     height: 70px;
   }
   
-  .logo-text {
+  .nav-logo-text {
     font-size: 24px;
   }
   
@@ -275,6 +275,34 @@ nav {
 }
 
 @media (max-width: 640px) {
+  .nav-logo-text {
+    font-size: 17px;
+  }
+
+  .register-btn {
+    width: 90px;
+    padding: 10px;
+  }
+
+  .register-btn p {
+    font-size: 0.85rem;
+  }
+
+  .sign-in-btn {
+    width: 70px;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .reg-dropdown-menu {
+    left: -30%;
+  }
+
+  .reg-dropdown-item {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.85rem;
+  }
+
   .nav-links .nav-link-item {
     display: none;
   }

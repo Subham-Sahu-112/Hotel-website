@@ -1,23 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Car, Castle, ChevronDown } from "lucide-react";
 
 import "./Navbar.css";
 
 export default function Navbar() {
+  const [isMobile] = useState(window.innerWidth <= 768);
   const [clickVal, setClickVal] = useState(false);
   const [activeTab, setActiveTab] = useState("Stays");
+  const dropdownRef = useRef(null);
 
   const navigationTabs = [
     { name: "Stays", icon: <Castle size={30} /> },
     { name: "Car rental", icon: <Car size={30} /> },
   ];
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setClickVal(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <nav id="navbar">
       <div className="nav-container">
         {/* Logo */}
-        <div className="logo">
-          <span className="logo-text">Booking.com</span>
+        <div className="nav-logo">
+          <span className="nav-logo-text">Booking.com</span>
         </div>
 
         {/* Right side actions */}
@@ -26,28 +42,30 @@ export default function Navbar() {
             <a href="#" className="nav-link-item">
               List your property
             </a>
-            <button
-              className="register-btn"
-              onClick={() => setClickVal(!clickVal)}
-            >
-              <p>Register</p>
-              <span
-                className="down"
-                style={{ transform: clickVal ? "rotate(180deg)" : "" }}
+            <div ref={dropdownRef} className="register-dropdown-container">
+              <button
+                className="register-btn"
+                onClick={() => setClickVal(!clickVal)}
               >
-                <ChevronDown />
-              </span>
-            </button>
-            {clickVal && (
-              <div className="reg-dropdown-menu">
-                <a href="/vender-register" className="reg-dropdown-item">
-                  Vender Register
-                </a>
-                <a href="/customer-register" className="reg-dropdown-item">
-                  Customer Register
-                </a>
-              </div>
-            )}
+                <p>Register</p>
+                <span
+                  className="down"
+                  style={{ transform: clickVal ? "rotate(180deg)" : "" }}
+                >
+                  <ChevronDown size={isMobile ? 15 : 33} />
+                </span>
+              </button>
+              {clickVal && (
+                <div className="reg-dropdown-menu">
+                  <a href="/vender-register" className="reg-dropdown-item">
+                    Vender Register
+                  </a>
+                  <a href="/customer-register" className="reg-dropdown-item">
+                    Customer Register
+                  </a>
+                </div>
+              )}
+            </div>
             <button className="sign-in-btn">Sign in</button>
           </div>
         </div>

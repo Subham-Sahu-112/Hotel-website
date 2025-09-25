@@ -246,8 +246,12 @@
 }
 
 @media (max-width: 480px) {
+  .footer {
+    margin-top: 0;
+  }
+
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
   }
   
@@ -279,10 +283,33 @@
     text-align: center;
     justify-content: center;
   }
+
+  .footer-container {
+    position: relative;
+  }
+
+  .footer-grid {
+    margin-bottom: 10px;
+  }
   
   .footer-description,
   .footer-copyright {
     font-size: 12px;
+    text-align: center;
+  }
+
+  .currency-section {
+    width: 60%;
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    justify-self: flex-end;
+    position: absolute;
+    top: 45%;
+    right: 0;
+    padding: 0;
+    padding-right: 2rem;
+    margin: 0;
   }
 }
 

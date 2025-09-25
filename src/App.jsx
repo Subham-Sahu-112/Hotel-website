@@ -3,13 +3,15 @@ import "./App.css";
 import LandingPage from "./pages/landing/LandingPage";
 import Vendor from "./pages/vendor/vendor";
 import VendorRegister from "./pages/register/VendorRegister";
+import CustomerRegister from "./pages/register/CustomerRegister";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/vender-register" element={<VendorRegister />} />
+        <Route path="/register" element={<VendorRegister />} />
+        <Route path="/customer-register" element={<CustomerRegister />} />
         <Route path="/vender/*" element={<Vendor />} />
       </Routes>
     </Router>

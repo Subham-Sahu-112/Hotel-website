@@ -2,54 +2,29 @@ import "./Footer.css";
 
 export default function Footer() {
   const footerSections = {
-    Support: [
-      "Coronavirus (COVID-19) FAQs",
-      "Manage your trips", 
-      "Contact Customer Service",
-      "Safety Resource Center"
+    "Quick Links": [
+      "Home",
+      "About Us", 
+      "Contact Us",
+      "Privacy Policy",
+      "Terms of Service"
     ],
-    Discover: [
-      "Genius loyalty program",
-      "Seasonal and holiday deals",
-      "Travel articles",
-      "Booking.com for Business",
-      "Traveller Review Awards",
-      "Car rental",
-      "Flight finder",
-      "Restaurant reservations",
-      "Booking.com for Travel Agents"
+    "For Partners": [
+      "List Your Property",
+      "Partner Login",
+      "Become an Affiliate"
     ],
-    "Terms and settings": [
-      "Privacy & cookies",
-      "Terms of Service", 
-      "Accessibility Statement",
-      "Grievance officer",
-      "Modern Slavery Statement",
-      "Human Rights Statement"
-    ],
-    Partners: [
-      "Extranet login",
-      "Partner help",
-      "List your property",
-      "Become an affiliate"
-    ],
-    About: [
-      "About Booking.com",
-      "How We Work",
-      "Sustainability",
-      "Press center",
-      "Careers",
-      "Investor relations",
-      "Corporate contact"
+    "Support": [
+      "Help Center",
+      "Customer Service",
+      "Safety & Security"
     ]
   };
 
   const partnerLogos = [
-    { name: "Booking.com", logo: "booking" },
-    { name: "Priceline", logo: "priceline" },
-    { name: "Kayak", logo: "kayak" },
-    { name: "Agoda", logo: "agoda" },
-    { name: "OpenTable", logo: "opentable" }
+    { name: "HotelHub", logo: "hotelhub" },
+    { name: "TravelMax", logo: "travelmax" },
+    { name: "StayFinder", logo: "stayfinder" }
   ];
 
   return (
@@ -84,21 +59,11 @@ export default function Footer() {
         <div className="footer-bottom">
           <div className="footer-info">
             <p className="footer-description">
-              Booking.com is part of Booking Holdings Inc., the world leader in online travel and related services.
+              Your trusted partner for finding the perfect accommodation worldwide. Book with confidence.
             </p>
             <p className="footer-copyright">
-              Copyright © 1996–2025 Booking.com™. All rights reserved.
+              Copyright © 2025 HotelHub™. All rights reserved.
             </p>
-          </div>
-          
-          <div className="partner-logos">
-            {partnerLogos.map((partner, index) => (
-              <div key={index} className="partner-logo">
-                <span className={`logo ${partner.logo}-logo`}>
-                  {partner.name}
-                </span>
-              </div>
-            ))}
           </div>
         </div>
 

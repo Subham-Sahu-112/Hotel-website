@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './VendorRegister.css';
+import { Building, Contact, Files, Handshake, Landmark, Lock, MapPinHouse } from 'lucide-react';
 
 const VendorRegister = () => {
   const [formData, setFormData] = useState({
@@ -34,6 +35,24 @@ const VendorRegister = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [businessTypeDropdownOpen, setBusinessTypeDropdownOpen] = useState(false);
+  const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
+  const [isMobile] = useState(window.innerWidth <= 768);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.ven-form-dropdown')) {
+        setBusinessTypeDropdownOpen(false);
+        setCountryDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const businessTypes = [
     'Hotel',
@@ -74,6 +93,28 @@ const VendorRegister = () => {
         ...prev,
         [name]: ''
       }));
+    }
+  };
+
+  const handleDropdownSelect = (name, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when user selects
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+    
+    // Close dropdowns
+    if (name === 'businessType') {
+      setBusinessTypeDropdownOpen(false);
+    } else if (name === 'country') {
+      setCountryDropdownOpen(false);
     }
   };
 
@@ -173,7 +214,7 @@ const VendorRegister = () => {
             {/* Business Information Section */}
             <div className="ven-form-section">
               <div className="ven-section-header">
-                <div className="ven-section-icon">🏢</div>
+                <div className="ven-section-icon"><Landmark size={isMobile ? 22 : 33} /></div>
                 <h3 className="ven-section-title">Business Information</h3>
               </div>
 
@@ -198,18 +239,30 @@ const VendorRegister = () => {
                   <label htmlFor="businessType" className="ven-form-label">
                     Business Type <span className="required">*</span>
                   </label>
-                  <select
-                    id="businessType"
-                    name="businessType"
-                    value={formData.businessType}
-                    onChange={handleInputChange}
-                    className={`ven-form-select ${errors.businessType ? 'error' : ''}`}
-                  >
-                    <option value="">Select business type</option>
-                    {businessTypes.map((type) => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </select>
+                  <div className={`ven-form-dropdown ${errors.businessType ? 'error' : ''}`}>
+                    <div 
+                      className="ven-dropdown-toggle"
+                      onClick={() => setBusinessTypeDropdownOpen(!businessTypeDropdownOpen)}
+                    >
+                      <span className={formData.businessType ? 'selected' : 'placeholder'}>
+                        {formData.businessType || 'Select business type'}
+                      </span>
+                      <span className={`dropdown-arrow ${businessTypeDropdownOpen ? 'open' : ''}`}>▼</span>
+                    </div>
+                    {businessTypeDropdownOpen && (
+                      <div className="ven-dropdown-options">
+                        {businessTypes.map((type) => (
+                          <span
+                            key={type}
+                            className={`dropdown-option ${formData.businessType === type ? 'selected' : ''}`}
+                            onClick={() => handleDropdownSelect('businessType', type)}
+                          >
+                            {type}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                   {errors.businessType && <span className="ven-error-message">{errors.businessType}</span>}
                 </div>
               </div>
@@ -234,7 +287,7 @@ const VendorRegister = () => {
             {/* Contact Information Section */}
             <div className="ven-form-section">
               <div className="ven-section-header">
-                <div className="ven-section-icon">📧</div>
+                <div className="ven-section-icon"><Contact size={isMobile ? 22 : 33} /></div>
                 <h3 className="ven-section-title">Contact Information</h3>
               </div>
 
@@ -292,7 +345,7 @@ const VendorRegister = () => {
             {/* Property Address Section */}
             <div className="ven-form-section">
               <div className="ven-section-header">
-                <div className="ven-section-icon">📍</div>
+                <div className="ven-section-icon"><MapPinHouse size={isMobile ? 22 : 33} /></div>
                 <h3 className="ven-section-title">Property Address</h3>
               </div>
 
@@ -333,18 +386,30 @@ const VendorRegister = () => {
                   <label htmlFor="country" className="ven-form-label">
                     Country <span className="required">*</span>
                   </label>
-                  <select
-                    id="country"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleInputChange}
-                    className={`ven-form-select ${errors.country ? 'error' : ''}`}
-                  >
-                    <option value="">Select country</option>
-                    {countries.map((country) => (
-                      <option key={country} value={country}>{country}</option>
-                    ))}
-                  </select>
+                  <div className={`ven-form-dropdown ${errors.country ? 'error' : ''}`}>
+                    <div 
+                      className="ven-dropdown-toggle"
+                      onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}
+                    >
+                      <span className={formData.country ? 'selected' : 'placeholder'}>
+                        {formData.country || 'Select country'}
+                      </span>
+                      <span className={`dropdown-arrow ${countryDropdownOpen ? 'open' : ''}`}>▼</span>
+                    </div>
+                    {countryDropdownOpen && (
+                      <div className="ven-dropdown-options">
+                        {countries.map((country) => (
+                          <span
+                            key={country}
+                            className={`dropdown-option ${formData.country === country ? 'selected' : ''}`}
+                            onClick={() => handleDropdownSelect('country', country)}
+                          >
+                            {country}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                   {errors.country && <span className="ven-error-message">{errors.country}</span>}
                 </div>
 
@@ -369,7 +434,7 @@ const VendorRegister = () => {
             {/* Business Registration Section */}
             <div className="ven-form-section">
               <div className="ven-section-header">
-                <div className="ven-section-icon">📋</div>
+                <div className="ven-section-icon"><Handshake size={isMobile ? 22 : 33} /></div>
                 <h3 className="ven-section-title">Business Registration</h3>
               </div>
 
@@ -411,7 +476,7 @@ const VendorRegister = () => {
             {/* Account Setup Section */}
             <div className="ven-form-section">
               <div className="ven-section-header">
-                <div className="ven-section-icon">🔒</div>
+                <div className="ven-section-icon"><Lock size={isMobile ? 22 : 33} /></div>
                 <h3 className="ven-section-title">Account Setup</h3>
               </div>
 
@@ -453,7 +518,7 @@ const VendorRegister = () => {
             {/* Terms & Conditions Section */}
             <div className="ven-form-section">
               <div className="ven-section-header">
-                <div className="ven-section-icon">📄</div>
+                <div className="ven-section-icon"><Files size={isMobile ? 22 : 33} /></div>
                 <h3 className="ven-section-title">Terms & Conditions</h3>
               </div>
 

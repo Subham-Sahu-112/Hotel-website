@@ -2,7 +2,7 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .ven-register-container {
@@ -14,20 +14,20 @@
 /* Header Styles */
 .ven-register-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .ven-register-title {
   color: white;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .ven-register-subtitle {
   color: rgba(255, 255, 255, 0.9);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
@@ -44,30 +44,31 @@
 .ven-form-header {
   background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
-  padding: 40px;
+  padding: 30px 20px;
   text-align: center;
 }
 
 .ven-form-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .ven-form-subtitle {
   font-size: 1.1rem;
+  margin: 0;
+  margin-top: 5px;
   opacity: 0.9;
   line-height: 1.5;
 }
 
 /* Form Styles */
 .ven-register-form {
-  padding: 40px;
+  padding: 30px 40px;
 }
 
 .ven-form-section {
-  margin-bottom: 40px;
-  padding-bottom: 30px;
+  margin-bottom: 20px;
   border-bottom: 1px solid #e9ecef;
 }
 
@@ -79,21 +80,19 @@
 .ven-section-header {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .ven-section-icon {
-  font-size: 1.5rem;
   margin-right: 15px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 10px;
   border-radius: 12px;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
 }
 
 .ven-section-title {
@@ -135,9 +134,7 @@
 
 /* Input Styles */
 .ven-form-input,
-.ven-form-select,
 .ven-form-textarea {
-  width: 100%;
   padding: 15px;
   border: 2px solid #e5e7eb;
   border-radius: 12px;
@@ -148,7 +145,6 @@
 }
 
 .ven-form-input:focus,
-.ven-form-select:focus,
 .ven-form-textarea:focus {
   outline: none;
   border-color: #667eea;
@@ -169,19 +165,96 @@
   line-height: 1.6;
 }
 
-.ven-form-select {
+/* Custom Dropdown Styles */
+.ven-form-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.ven-dropdown-toggle {
+  padding: 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1rem;
+  background-color: #fafafa;
   cursor: pointer;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
-  padding-right: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.ven-dropdown-toggle:hover {
+  border-color: #667eea;
+  background-color: white;
+}
+
+.ven-dropdown-toggle .placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.ven-dropdown-toggle .selected {
+  color: #374151;
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.ven-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-option {
+  display: block;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown-option:hover {
+  background-color: #f8fafc;
+  color: #667eea;
+}
+
+.dropdown-option.selected {
+  background-color: #667eea;
+  color: white;
+}
+
+.dropdown-option.selected:hover {
+  background-color: #5a6fd8;
 }
 
 /* Error Styles */
 .ven-form-input.error,
-.ven-form-select.error,
-.ven-form-textarea.error {
+.ven-form-textarea.error,
+.ven-form-dropdown.error .ven-dropdown-toggle {
   border-color: #e74c3c;
   background-color: #fdf2f2;
   animation: shake 0.5s ease-in-out;
@@ -202,9 +275,16 @@
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 /* Checkbox Styles */
@@ -291,55 +371,68 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .vendor-register {
+  .ven-vendor-register {
     padding: 10px 0;
   }
 
-  .register-container {
+  .ven-register-container {
     padding: 0 15px;
   }
 
-  .register-title {
+  .ven-register-title {
     font-size: 2.2rem;
   }
 
-  .register-subtitle {
+  .ven-register-subtitle {
     font-size: 1rem;
   }
 
-  .form-header {
+  .ven-form-header {
     padding: 30px 20px;
   }
 
-  .form-title {
+  .ven-form-title {
     font-size: 2rem;
   }
 
-  .register-form {
+  .ven-register-form {
     padding: 30px 20px;
   }
 
-  .form-grid,
+  .ven-form-grid,
   .form-grid-3 {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  .section-header {
-    flex-direction: column;
+  .ven-section-header {
     text-align: center;
     align-items: center;
   }
 
-  .section-icon {
-    margin-right: 0;
-    margin-bottom: 10px;
+  .ven-section-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .ven-section-title {
+    font-size: 1.3rem;
+  }
+
+  .ven-form-label {
+    font-size: 0.9rem;
   }
 
   .submit-button {
@@ -349,18 +442,31 @@
 }
 
 @media (max-width: 480px) {
-  .register-title {
+  .ven-register-title {
     font-size: 1.8rem;
   }
 
-  .form-title {
-    font-size: 1.6rem;
+  .ven-form-header {
+    padding: 20px 15px;
   }
 
-  .form-input,
-  .form-select,
-  .form-textarea {
-    padding: 12px;
+  .ven-form-title {
+    font-size: 1.4rem;
+  }
+
+  .ven-form-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .ven-form-input,
+  .ven-form-textarea,
+  .ven-dropdown-toggle {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .form-submit {
+    margin-top: 0;
   }
 
   .submit-button {
@@ -376,33 +482,42 @@
 }
 
 .submitting::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   animation: loading 2s infinite;
 }
 
 @keyframes loading {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 /* Form Validation Success */
-.form-input.success,
-.form-select.success,
-.form-textarea.success {
+.ven-form-input.success,
+.ven-form-textarea.success,
+.ven-form-dropdown.success .ven-dropdown-toggle {
   border-color: #10b981;
   background-color: #f0fdf4;
 }
 
 /* Accessibility */
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.ven-form-input:focus,
+.ven-form-textarea:focus,
+.ven-dropdown-toggle:focus {
   outline: 2px solid #667eea;
   outline-offset: 2px;
 }

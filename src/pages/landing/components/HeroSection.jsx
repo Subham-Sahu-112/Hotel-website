@@ -245,11 +245,6 @@ export default function HeroSection() {
 
             <button className="search-button">Search</button>
           </div>
-          
-          <div className="add-flights-option">
-            <input type="checkbox" id="add-flights" />
-            <label htmlFor="add-flights">Add flights to my search</label>
-          </div>
         </div>
       </div>
     </div>
