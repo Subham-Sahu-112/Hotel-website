@@ -1,67 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import VendorLayout from "./VendorLayout";
 import "./Properties.css";
+import { useNavigate } from "react-router-dom";
 
 const Properties = () => {
+  const navigate = useNavigate();
+  const [propertiesData, setPropertiesData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const properties = [
-    {
-      id: 1,
-      name: "Sunset Villa Resort",
-      type: "Villa",
-      location: "Maldives",
-      status: "active",
-      rooms: 12,
-      price: "$450/night",
-      rating: 4.8,
-      bookings: 156,
-      image: "/scenery.jpg",
-    },
-    {
-      id: 2,
-      name: "Ocean View Hotel",
-      type: "Hotel",
-      location: "Miami Beach",
-      status: "active",
-      rooms: 45,
-      price: "$320/night",
-      rating: 4.6,
-      bookings: 89,
-      image: "/scenery2.jpg",
-    },
-    {
-      id: 3,
-      name: "Mountain Lodge",
-      type: "Lodge",
-      location: "Colorado",
-      status: "inactive",
-      rooms: 8,
-      price: "$280/night",
-      rating: 4.5,
-      bookings: 34,
-      image: "/scenery3.jpg",
-    },
-    {
-      id: 4,
-      name: "City Center Suites",
-      type: "Apartment",
-      location: "New York",
-      status: "active",
-      rooms: 24,
-      price: "$380/night",
-      rating: 4.7,
-      bookings: 112,
-      image: "/scenery4.jpg",
-    },
-  ];
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const res = await fetch("http://localhost:1000/all-hotels");
+        if (!res.ok) throw new Error("Failed to fetch properties");
+        const data = await res.json();
+        console.log("Fetched data:", data);
 
-  const filteredProperties = properties.filter((property) => {
+        // Map backend data to frontend-friendly structure
+        const mappedData = data.map((hotel) => ({
+          id: hotel._id,
+          name: hotel.basicInfo.hotelName,
+          location: hotel.basicInfo.city,
+          status: "active", // default if not stored in DB
+          amenities: hotel.amenities || [],
+          image: hotel.images.mainImage,
+          rooms: hotel.roomTypes,
+          price: hotel.roomTypes[0]?.pricePerNight || 0,
+          bookings: 0, // if you track bookings later
+          type: hotel.roomTypes[0]?.roomType || "standard",
+          rating: hotel.basicInfo.starRating || 0,
+        }));
+
+        setPropertiesData(mappedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchProperties();
+  }, []);
+
+  useEffect(() => {
+    console.log("Properties Data:", propertiesData);
+  }, [propertiesData]);
+
+  const filteredProperties = propertiesData.filter((property) => {
     const matchesSearch =
-      property.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      property.location.toLowerCase().includes(searchQuery.toLowerCase());
+      property.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.location?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter =
       filterStatus === "all" || property.status === filterStatus;
     return matchesSearch && matchesFilter;
@@ -91,182 +77,106 @@ const Properties = () => {
           </div>
           <button
             className="add-property-btn"
-            onClick={() => setIsAddModalOpen(true)}
+            onClick={() => navigate("/add-listings")}
           >
             + Add Property
           </button>
         </div>
 
-        {/* Filters and Search */}
+        {/* Filters */}
         <div className="properties-filters">
-          <div className="prop-search-container">
-            <input
-              type="text"
-              placeholder="Search properties..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="prop-search-input"
-            />
-          </div>
-          <div className="prop-filter-container">
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="prop-filter-select"
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
+          <input
+            type="text"
+            placeholder="Search properties..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="prop-search-input"
+          />
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="prop-filter-select"
+          >
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
         </div>
 
-        {/* Stats Summary */}
+        {/* Stats */}
         <div className="properties-stats">
           <div className="prop-stat-card">
             <div className="prop-stat-icon">🏨</div>
             <div className="prop-stat-info">
-              <div className="prop-stat-number">{properties.length}</div>
+              <div className="prop-stat-number">{propertiesData.length}</div>
               <div className="prop-stat-label">Total Properties</div>
-            </div>
-          </div>
-          <div className="prop-stat-card">
-            <div className="prop-stat-icon">🛏️</div>
-            <div className="prop-stat-info">
-              <div className="prop-stat-number">
-                {properties.reduce((sum, p) => sum + p.rooms, 0)}
-              </div>
-              <div className="prop-stat-label">Total Rooms</div>
-            </div>
-          </div>
-          <div className="prop-stat-card">
-            <div className="prop-stat-icon">📊</div>
-            <div className="prop-stat-info">
-              <div className="prop-stat-number">
-                {properties.reduce((sum, p) => sum + p.bookings, 0)}
-              </div>
-              <div className="prop-stat-label">Total Bookings</div>
             </div>
           </div>
         </div>
 
         {/* Properties Grid */}
         <div className="properties-grid">
-          {filteredProperties.map((property) => (
-            <div key={property.id} className="property-card">
-              <div className="property-image">
-                <img src={property.image} alt={property.name} />
-                <div className="property-status">
-                  <span
-                    className="status-badge"
-                    style={{ backgroundColor: getStatusColor(property.status) }}
-                  >
-                    {property.status}
-                  </span>
+          {filteredProperties.length > 0 ? (
+            filteredProperties.map((property) => (
+              <div key={property.id} className="property-card">
+                <div className="property-image">
+                  <img src={property.image} alt={property.name} />
+                  <div className="property-status">
+                    <span
+                      className="status-badge"
+                      style={{
+                        backgroundColor: getStatusColor(property.status),
+                      }}
+                    >
+                      {property.status}
+                    </span>
+                  </div>
+                </div>
+                <div className="property-content">
+                  <div className="property-heading">
+                    <h3 className="prop-property-name">{property.name}</h3>
+                    <div className="property-rating">⭐ {property.rating}</div>
+                  </div>
+                  <p className="property-location">📍 {property.location}</p>
+                  {property.rooms.map((room) => (
+                    <p className="property-room-type">
+                      {room.roomType} - ₹{property.price}/night
+                    </p>
+                  ))}
+                  {property.rooms.map((room) => (
+                    <p className="property-rooms">
+                      {property.rooms.length} {room.roomType}{" "}
+                      {property.rooms.length === 1 ? "room" : "rooms"}
+                    </p>
+                  ))}
+
+                  <div className="property-amenities">
+                    {(property.amenities || []).map((amenity, index) => (
+                      <span key={index} className="amenity-badge">
+                        {amenity}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="property-actions">
+                    <button className="prop-action-btn view-btn">View</button>
+                    <button className="prop-action-btn edit-btn">Edit</button>
+                    <button className="prop-action-btn delete-btn">
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              <div className="property-content">
-                <div className="property-header">
-                  <h3 className="property-name">{property.name}</h3>
-                  <div className="property-rating">⭐ {property.rating}</div>
-                </div>
-
-                <div className="property-details">
-                  <div className="property-type">{property.type}</div>
-                  <div className="property-location">
-                    📍 {property.location}
-                  </div>
-                  <div className="property-rooms">
-                    🛏️ {property.rooms} rooms
-                  </div>
-                  <div className="property-price">{property.price}</div>
-                </div>
-
-                <div className="property-stats">
-                  <div className="stat">
-                    <span className="stat-label">Total Bookings</span>
-                    <span className="stat-value">{property.bookings}</span>
-                  </div>
-                </div>
-
-                <div className="property-actions">
-                  <button className="action-btn view-btn">View</button>
-                  <button className="action-btn edit-btn">Edit</button>
-                  <button className="action-btn delete-btn">Delete</button>
-                </div>
-              </div>
+            ))
+          ) : (
+            <div className="empty-state">
+              <div className="empty-icon">🏨</div>
+              <h3>No properties found</h3>
+              <p>Try adjusting your search or filters</p>
             </div>
-          ))}
+          )}
         </div>
-
-        {/* Empty State */}
-        {filteredProperties.length === 0 && (
-          <div className="empty-state">
-            <div className="empty-icon">🏨</div>
-            <h3>No properties found</h3>
-            <p>Try adjusting your search or filters</p>
-          </div>
-        )}
       </div>
-
-      {/* Add Property Modal */}
-      {isAddModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <div className="modal-header">
-              <h2>Add New Property</h2>
-              <button
-                className="modal-close"
-                onClick={() => setIsAddModalOpen(false)}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="modal-content">
-              <form className="property-form">
-                <div className="form-group">
-                  <label>Property Name</label>
-                  <input type="text" placeholder="Enter property name" />
-                </div>
-                <div className="form-group">
-                  <label>Property Type</label>
-                  <select>
-                    <option>Hotel</option>
-                    <option>Villa</option>
-                    <option>Lodge</option>
-                    <option>Apartment</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Location</label>
-                  <input type="text" placeholder="Enter location" />
-                </div>
-                <div className="form-group">
-                  <label>Number of Rooms</label>
-                  <input type="number" placeholder="Enter number of rooms" />
-                </div>
-                <div className="form-group">
-                  <label>Price per Night</label>
-                  <input type="text" placeholder="$0" />
-                </div>
-                <div className="form-actions">
-                  <button
-                    type="button"
-                    className="cancel-btn"
-                    onClick={() => setIsAddModalOpen(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button type="submit" className="submit-btn">
-                    Add Property
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
     </VendorLayout>
   );
 };

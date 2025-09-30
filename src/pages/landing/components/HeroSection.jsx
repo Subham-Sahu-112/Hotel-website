@@ -1,90 +1,50 @@
-import { Calendar, LocateFixed, User } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Calendar, MapPin, User, Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import "./HeroSection.css";
 
 export default function HeroSection() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("2 travellers, 1 room");
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(
+    "Search destinations"
+  );
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
+  const [guests, setGuests] = useState("2 guests");
+  const [showCheckInPicker, setShowCheckInPicker] = useState(false);
+  const [showCheckOutPicker, setShowCheckOutPicker] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-
-  const travelerOptions = [
-    "1 traveller, 1 room",
-    "2 travellers, 1 room", 
-    "3 travellers, 1 room",
-    "4 travellers, 1 room",
-    "2 travellers, 2 rooms",
-    "3 travellers, 2 rooms",
-    "4 travellers, 2 rooms",
-    "5 travellers, 2 rooms",
-    "6 travellers, 3 rooms"
-  ];
-
+  
+  const checkInRef = useRef(null);
+  const checkOutRef = useRef(null);
+  
   const months = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
-
+  
+  const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Close person dropdown if clicking outside
-      if (!event.target.closest('.person-dropdown')) {
-        setIsDropdownOpen(false);
+      if (checkInRef.current && !checkInRef.current.contains(event.target)) {
+        setShowCheckInPicker(false);
       }
-      
-      // Close date picker if clicking outside
-      if (!event.target.closest('.date-picker')) {
-        setIsDatePickerOpen(false);
+      if (checkOutRef.current && !checkOutRef.current.contains(event.target)) {
+        setShowCheckOutPicker(false);
       }
     };
-
-    document.addEventListener('click', handleClickOutside);
     
-    // Cleanup function to remove event listener
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsDropdownOpen(false);
-  };
-
+  
   const formatDate = (date) => {
-    if (!date) return null;
-    const day = date.getDate();
-    const month = months[date.getMonth()].substring(0, 3);
-    return `${day} ${month}`;
+    if (!date) return "Pick the Date";
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
   };
-
-  const getDateDisplayText = () => {
-    if (checkInDate && checkOutDate) {
-      return `${formatDate(checkInDate)} - ${formatDate(checkOutDate)}`;
-    } else if (checkInDate) {
-      return `${formatDate(checkInDate)} - Select checkout`;
-    }
-    return "21 Sept - 25 Sept";
-  };
-
-  const handleDateSelect = (date) => {
-    if (!checkInDate || (checkInDate && checkOutDate)) {
-      // Set check-in date
-      setCheckInDate(date);
-      setCheckOutDate(null);
-    } else if (date > checkInDate) {
-      // Set check-out date
-      setCheckOutDate(date);
-      setIsDatePickerOpen(false);
-    } else {
-      // If selected date is before check-in, reset and set as new check-in
-      setCheckInDate(date);
-      setCheckOutDate(null);
-    }
-  };
-
+  
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -107,143 +67,207 @@ export default function HeroSection() {
     
     return days;
   };
-
-  const isDateInRange = (date) => {
-    if (!checkInDate || !date) return false;
-    if (checkOutDate) {
-      return date >= checkInDate && date <= checkOutDate;
+  
+  const handleDateSelect = (date, type) => {
+    if (type === 'checkin') {
+      setCheckInDate(date);
+      setShowCheckInPicker(false);
+      // If check-out date is before check-in, clear it
+      if (checkOutDate && date > checkOutDate) {
+        setCheckOutDate(null);
+      }
+    } else {
+      setCheckOutDate(date);
+      setShowCheckOutPicker(false);
     }
-    return date.getTime() === checkInDate.getTime();
   };
-
-  const isDateSelected = (date) => {
-    if (!date) return false;
-    return (checkInDate && date.getTime() === checkInDate.getTime()) ||
-           (checkOutDate && date.getTime() === checkOutDate.getTime());
-  };
-
+  
   const navigateMonth = (direction) => {
     const newMonth = new Date(currentMonth);
     newMonth.setMonth(currentMonth.getMonth() + direction);
     setCurrentMonth(newMonth);
   };
+  
+  const isDateDisabled = (date, type) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (date < today) return true;
+    
+    if (type === 'checkout' && checkInDate) {
+      return date <= checkInDate;
+    }
+    
+    return false;
+  };
+  
+  const isDateSelected = (date) => {
+    if (!date) return false;
+    const dateStr = date.toDateString();
+    return (
+      (checkInDate && checkInDate.toDateString() === dateStr) ||
+      (checkOutDate && checkOutDate.toDateString() === dateStr)
+    );
+  };
+  
+  const isDateInRange = (date) => {
+    if (!date || !checkInDate || !checkOutDate) return false;
+    return date > checkInDate && date < checkOutDate;
+  };
 
   return (
     <div className="hero">
-      <div className="hero-container">
-        <div className="hero-content">
-          <h1 className="hero-title">Find your next stay</h1>
-          <p className="hero-subtitle">Search deals on hotels, homes, and much more...</p>
-          
-          <div className="search-form">
-            <div className="location-field search-field">
-              <span className="field-icon">
-                <LocateFixed size={20} />
-              </span>
-              <input
-                type="text"
-                name="location"
-                id="location"
-                placeholder="Where are you going?"
-                className="search-input"
-              />
-            </div>
+      <div className="land-hero-container">
+        <div className="land-hero-content">
+          <h1 className="land-hero-title">
+            Find Your Perfect <span className="highlight">Stay</span>
+          </h1>
+          <p className="land-hero-subtitle">
+            Discover amazing hotels, resorts, and unique accommodations around
+            the world
+          </p>
 
-            <div className="date-field search-field">
-              <span className="field-icon">
-                <Calendar size={20} />
-              </span>
-              <div className="date-picker">
-                <div 
-                  className="date-selected"
-                  onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-                >
-                  <div className="date-display">
-                    <span className="date-range">{getDateDisplayText()}</span>
+          <div className="search-card">
+            <div className="search-card-content">
+              <div className="search-fields-grid">
+                <div className="search-field-group">
+                  <label className="field-label">Where</label>
+                  <div className="icon-input-wrapper">
+                    <MapPin className="input-icon" size={20} />
+                    <input
+                      placeholder="Search destinations"
+                      className="input-field"
+                    />
                   </div>
-                  <span className={`dropdown-arrow ${isDatePickerOpen ? 'open' : ''}`}>
-                    ▼
-                  </span>
                 </div>
-                {isDatePickerOpen && (
-                  <div className="date-picker-menu">
-                    <div className="calendar-header">
-                      <button 
-                        className="month-nav"
-                        onClick={() => navigateMonth(-1)}
-                      >
-                        ‹
-                      </button>
-                      <span className="current-month">
-                        {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-                      </span>
-                      <button 
-                        className="month-nav"
-                        onClick={() => navigateMonth(1)}
-                      >
-                        ›
-                      </button>
+                <div className="search-field-group" ref={checkInRef}>
+                  <label className="field-label">Check-in</label>
+                  <div className="icon-input-wrapper" onClick={() => setShowCheckInPicker(!showCheckInPicker)}>
+                    <Calendar className="input-icon" size={20} />
+                    <div className="input-field date-field">
+                      {formatDate(checkInDate)}
                     </div>
-                    <div className="calendar-grid">
-                      <div className="weekdays">
-                        {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-                          <span key={day} className="weekday">{day}</span>
+                  </div>
+                  {showCheckInPicker && (
+                    <div className="date-picker">
+                      <div className="date-picker-header">
+                        <button 
+                          className="nav-btn" 
+                          onClick={() => navigateMonth(-1)}
+                          type="button"
+                        >
+                          <ChevronLeft size={16} />
+                        </button>
+                        <span className="month-year">
+                          {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                        </span>
+                        <button 
+                          className="nav-btn" 
+                          onClick={() => navigateMonth(1)}
+                          type="button"
+                        >
+                          <ChevronRight size={16} />
+                        </button>
+                      </div>
+                      <div className="weekdays-grid">
+                        {weekdays.map(day => (
+                          <div key={day} className="weekday">{day}</div>
                         ))}
                       </div>
                       <div className="days-grid">
                         {getDaysInMonth(currentMonth).map((date, index) => (
-                          <div
+                          <button
                             key={index}
-                            className={`calendar-day ${
-                              date ? 'available' : 'empty'
+                            className={`day-cell ${
+                              !date ? 'empty' : ''
                             } ${
-                              isDateSelected(date) ? 'selected' : ''
+                              date && isDateDisabled(date, 'checkin') ? 'disabled' : ''
                             } ${
-                              isDateInRange(date) ? 'in-range' : ''
+                              date && isDateSelected(date) ? 'selected' : ''
+                            } ${
+                              date && isDateInRange(date) ? 'in-range' : ''
                             }`}
-                            onClick={() => date && handleDateSelect(date)}
+                            onClick={() => date && !isDateDisabled(date, 'checkin') && handleDateSelect(date, 'checkin')}
+                            disabled={!date || isDateDisabled(date, 'checkin')}
+                            type="button"
                           >
                             {date ? date.getDate() : ''}
-                          </div>
+                          </button>
                         ))}
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="person-field search-field">
-              <span className="field-icon">
-                <User size={20} />
-              </span>
-              <div className="person-dropdown">
-                <div 
-                  className="person-selected"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  <span>{selectedOption}</span>
-                  <span className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}>
-                    ▼
-                  </span>
+                  )}
                 </div>
-                {isDropdownOpen && (
-                  <div className="person-dropdown-menu">
-                    {travelerOptions.map((option, index) => (
-                      <div 
-                        key={index}
-                        className={`dropdown-option ${option === selectedOption ? 'selected' : ''}`}
-                        onClick={() => handleOptionSelect(option)}
-                      >
-                        <span>{option}</span>
-                      </div>
-                    ))}
+                <div className="search-field-group" ref={checkOutRef}>
+                  <label className="field-label">Check-out</label>
+                  <div className="icon-input-wrapper" onClick={() => setShowCheckOutPicker(!showCheckOutPicker)}>
+                    <Calendar className="input-icon" size={20} />
+                    <div className="input-field date-field">
+                      {formatDate(checkOutDate)}
+                    </div>
                   </div>
-                )}
+                  {showCheckOutPicker && (
+                    <div className="date-picker">
+                      <div className="date-picker-header">
+                        <button 
+                          className="nav-btn" 
+                          onClick={() => navigateMonth(-1)}
+                          type="button"
+                        >
+                          <ChevronLeft size={16} />
+                        </button>
+                        <span className="month-year">
+                          {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                        </span>
+                        <button 
+                          className="nav-btn" 
+                          onClick={() => navigateMonth(1)}
+                          type="button"
+                        >
+                          <ChevronRight size={16} />
+                        </button>
+                      </div>
+                      <div className="weekdays-grid">
+                        {weekdays.map(day => (
+                          <div key={day} className="weekday">{day}</div>
+                        ))}
+                      </div>
+                      <div className="days-grid">
+                        {getDaysInMonth(currentMonth).map((date, index) => (
+                          <button
+                            key={index}
+                            className={`day-cell ${
+                              !date ? 'empty' : ''
+                            } ${
+                              date && isDateDisabled(date, 'checkout') ? 'disabled' : ''
+                            } ${
+                              date && isDateSelected(date) ? 'selected' : ''
+                            } ${
+                              date && isDateInRange(date) ? 'in-range' : ''
+                            }`}
+                            onClick={() => date && !isDateDisabled(date, 'checkout') && handleDateSelect(date, 'checkout')}
+                            disabled={!date || isDateDisabled(date, 'checkout')}
+                            type="button"
+                          >
+                            {date ? date.getDate() : ''}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="search-field-group">
+                  <label className="field-label">Guests</label>
+                  <div className="icon-input-wrapper">
+                    <Users className="input-icon" size={20} />
+                    <input placeholder="2 guests" className="input-field" />
+                  </div>
+                </div>
+              </div>
+              <div className="search-btn-row">
+                <button className="search-btn">Search Hotels</button>
               </div>
             </div>
-
-            <button className="search-button">Search</button>
           </div>
         </div>
       </div>

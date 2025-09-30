@@ -131,17 +131,17 @@ const Dashboard = () => {
 
   return (
     <VendorLayout>
-      <div className="dashboard">
+      <div className="vender-dashboard">
         {/* Header */}
-        <div className="dashboard-header">
-          <h1 className="dashboard-title">Dashboard</h1>
-          <div className="dashboard-search">
+        <div className="ven-dashboard-header">
+          <h1 className="ven-dashboard-title">Dashboard</h1>
+          <div className="ven-dashboard-search">
             <input
               type="text"
               placeholder="Search properties, bookings..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
+              className="ven-search-input"
             />
             <div className="notification-icon">🔔</div>
           </div>
@@ -167,11 +167,11 @@ const Dashboard = () => {
         </div>
 
         {/* Main Content */}
-        <div className="dashboard-content">
+        <div className="ven-dashboard-content">
           {/* Recent Bookings */}
-          <div className="content-section">
-            <div className="section-header">
-              <h2 className="section-title">Recent Bookings</h2>
+          <div className="ven-content-section">
+            <div className="ven-section-header">
+              <h2 className="ven-section-title">Recent Bookings</h2>
               <button className="view-all-btn">👁️ View All</button>
             </div>
 
@@ -204,8 +204,8 @@ const Dashboard = () => {
           </div>
 
           {/* Recent Activity */}
-          <div className="activity-section">
-            <h2 className="section-title">Recent Activity</h2>
+          <div className="ven-activity-section">
+            <h2 className="ven-section-title">Recent Activity</h2>
 
             <div className="activity-list">
               {recentActivity.map((activity) => (
@@ -225,7 +225,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="dashboard-footer">
+        <div className="ven-dashboard-footer">
           <h2>Quick Actions</h2>
           <div className="dash-action-buttons">
             <button className="dash-action-btn">

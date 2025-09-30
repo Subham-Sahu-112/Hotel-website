@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./BrowseAndExplore.css";
 
 export default function BrowseAndExplore() {
+  const navigate = useNavigate();
   const [currentPropertySlide, setCurrentPropertySlide] = useState(0);
   const [currentExploreSlide, setCurrentExploreSlide] = useState(0);
 
@@ -85,6 +87,12 @@ export default function BrowseAndExplore() {
     );
   };
 
+  const handlePropertyClick = (propertyName) => {
+    if (propertyName === 'Hotels') {
+      navigate('/all-hotels');
+    }
+  };
+
   return (
     <section className="browse-and-explore">
       <div className="browse-explore-container">
@@ -98,7 +106,7 @@ export default function BrowseAndExplore() {
                 className="carousel-btn prev-btn" 
                 onClick={handlePropertyPrev}
                 aria-label="Previous properties"
-              >
+              > 
                 ‹
               </button>
               <button 
@@ -113,7 +121,12 @@ export default function BrowseAndExplore() {
           
           <div className="property-types-grid">
             {propertyTypes.map((property) => (
-              <div key={property.id} className="property-type-card">
+              <div 
+                key={property.id} 
+                className="property-type-card"
+                onClick={() => handlePropertyClick(property.name)}
+                style={{ cursor: 'pointer' }}
+              >
                 <img 
                   src={property.image} 
                   alt={property.name} 

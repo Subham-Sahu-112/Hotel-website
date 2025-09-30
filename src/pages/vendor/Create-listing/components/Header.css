@@ -1,0 +1,33 @@
+.listing-header {
+  width: 100%;
+  border-radius: 10px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.listing-header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.listing-header-container h1,
+.listing-header-container p {
+  margin: 0;
+}
+
+.listing-header-container h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.listing-header-container p {
+  font-size: 1rem;
+  color: #64748b;
+}
