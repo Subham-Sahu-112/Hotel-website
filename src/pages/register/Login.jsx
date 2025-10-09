@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Login.css";
+import Loading from "../../components/Loading";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
@@ -14,6 +15,16 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
+
+  // Page loading effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -59,7 +70,15 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
+    <>
+      {isPageLoading && (
+        <Loading 
+          type="page" 
+          text="Preparing login..." 
+          overlay={true} 
+        />
+      )}
+      <div className="login">
       <div className="login-container">
         {/* Header */}
         <div className="login-header">
@@ -178,7 +197,7 @@ const Login = () => {
               disabled={isLoading}
             >
               {isLoading ? (
-                <span className="loading-spinner"></span>
+                <Loading type="button" size="small" color="white" text="Signing in..." />
               ) : (
                 "Sign In"
               )}
@@ -199,7 +218,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

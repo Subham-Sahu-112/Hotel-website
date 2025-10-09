@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import VendorLayout from "./VendorLayout";
+import Loading from "../../../components/Loading/Loading";
 import "./Properties.css";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +9,7 @@ const Properties = () => {
   const [propertiesData, setPropertiesData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -35,6 +37,8 @@ const Properties = () => {
         setPropertiesData(mappedData);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchProperties();
@@ -63,6 +67,20 @@ const Properties = () => {
         return "#6b7280";
     }
   };
+
+  const handleClickListing = (id) => {
+    navigate(`/vender/properties/${id}`);
+  }
+
+  if (isLoading) {
+    return (
+      <VendorLayout>
+        <div className="properties">
+          <Loading type="card" color="#ffd700" message="Loading Properties..." />
+        </div>
+      </VendorLayout>
+    );
+  }
 
   return (
     <VendorLayout>
@@ -118,7 +136,11 @@ const Properties = () => {
         <div className="properties-grid">
           {filteredProperties.length > 0 ? (
             filteredProperties.map((property) => (
-              <div key={property.id} className="property-card">
+              <div
+                key={property.id}
+                className="property-card"
+                onClick={() => handleClickListing(property.id)}
+              >
                 <div className="property-image">
                   <img src={property.image} alt={property.name} />
                   <div className="property-status">
@@ -138,13 +160,13 @@ const Properties = () => {
                     <div className="property-rating">⭐ {property.rating}</div>
                   </div>
                   <p className="property-location">📍 {property.location}</p>
-                  {property.rooms.map((room) => (
-                    <p className="property-room-type">
+                  {property.rooms.map((room, idx) => (
+                    <p key={idx} className="property-room-type">
                       {room.roomType} - ₹{property.price}/night
                     </p>
                   ))}
-                  {property.rooms.map((room) => (
-                    <p className="property-rooms">
+                  {property.rooms.map((room, idx) => (
+                    <p key={idx} className="property-rooms">
                       {property.rooms.length} {room.roomType}{" "}
                       {property.rooms.length === 1 ? "room" : "rooms"}
                     </p>

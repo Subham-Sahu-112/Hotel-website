@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CustomerRegister.css';
 import { User, Mail, Lock, Phone, MapPin, Calendar, Shield } from 'lucide-react';
+import { toast } from 'react-toastify';
+import Loading from '../../components/Loading';
 
 const CustomerRegister = () => {
+  const Navigate = useNavigate();
   const [formData, setFormData] = useState({
     // Personal Information
     firstName: '',
@@ -33,6 +37,7 @@ const CustomerRegister = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
   const [isMobile] = useState(window.innerWidth <= 768);
@@ -57,6 +62,11 @@ const CustomerRegister = () => {
 
   // Close dropdowns when clicking outside
   useEffect(() => {
+    // Simulate page loading
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 1500);
+
     const handleClickOutside = (event) => {
       if (!event.target.closest('.cust-form-dropdown')) {
         setGenderDropdownOpen(false);
@@ -66,6 +76,7 @@ const CustomerRegister = () => {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
+      clearTimeout(timer);
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
@@ -151,32 +162,95 @@ const CustomerRegister = () => {
     e.preventDefault();
     
     if (!validateForm()) {
+      toast.error('Please fix the errors in the form before submitting.');
       return;
     }
 
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Handle successful registration
-      alert('Registration successful! Welcome to our platform.');
-      console.log('Customer registration data:', formData);
-      
-      // Reset form or redirect to login/dashboard
-      // window.location.href = '/login';
+      // API call to backend
+      const response = await fetch('http://localhost:1000/customer/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Registration successful
+        toast.success(data.message || 'Registration successful! Welcome to our platform.');
+        
+        // Store token if provided
+        if (data.data && data.data.token) {
+          localStorage.setItem('customerToken', data.data.token);
+          localStorage.setItem('customerData', JSON.stringify(data.data.customer));
+        }
+        
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phoneNumber: '',
+          dateOfBirth: '',
+          gender: '',
+          address: '',
+          city: '',
+          country: '',
+          postalCode: '',
+          password: '',
+          confirmPassword: '',
+          newsletter: false,
+          notifications: true,
+          acceptTerms: false,
+          acceptPrivacy: false
+        });
+        
+        // Redirect to login or dashboard after 2 seconds
+        setTimeout(() => {
+           Navigate('/sign-in');
+        }, 2000);
+        
+      } else {
+        // Registration failed
+        if (data.errors && Array.isArray(data.errors)) {
+          // Handle validation errors from backend
+          data.errors.forEach(error => {
+            toast.error(error);
+          });
+        } else {
+          toast.error(data.message || 'Registration failed. Please try again.');
+        }
+      }
       
     } catch (error) {
-      console.error('Registration failed:', error);
-      alert('Registration failed. Please try again.');
+      console.error('Registration error:', error);
+      
+      // Handle network errors
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        toast.error('Unable to connect to server. Please check your internet connection.');
+      } else {
+        toast.error('An unexpected error occurred. Please try again later.');
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="customer-register">
+    <>
+      {isPageLoading && (
+        <Loading 
+          type="page" 
+          text="Setting up registration form..." 
+          overlay={true} 
+        />
+      )}
+      <div className="customer-register">
       <div className="cust-register-container">
         {/* Header */}
         <div className="cust-register-header">
@@ -533,7 +607,11 @@ const CustomerRegister = () => {
                 disabled={isSubmitting}
                 className={`cust-submit-button ${isSubmitting ? 'submitting' : ''}`}
               >
-                {isSubmitting ? 'Creating Account...' : 'Create Account'}
+                {isSubmitting ? (
+                  <Loading type="button" size="small" color="white" text="Creating Account..." />
+                ) : (
+                  'Create Account'
+                )}
               </button>
               <p className="cust-login-link">
                 Already have an account? <a href="/login" className="cust-link">Sign in here</a>
@@ -542,7 +620,8 @@ const CustomerRegister = () => {
           </form>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

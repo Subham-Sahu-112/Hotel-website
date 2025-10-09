@@ -10,6 +10,7 @@ import Login from "./pages/register/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CreateListing from "./pages/vendor/Create-listing/CreateListing";
 import AllHotels from "./pages/all-hotels/AllHotels";
+import HotelView from "./pages/Hotel-View/HotelView";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/vender/*" element={<Vendor />} />
         <Route path="/add-listings" element={<CreateListing />} />
         <Route path="/all-hotels" element={<AllHotels />} />
+        <Route path="/hotel/:id" element={<HotelView />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
 

@@ -6,11 +6,14 @@ import RoomTypesPricing from "./components/RoomTypesPricing";
 import ContactInformation from "./components/ContactInformation";
 import HotelImages from "./components/HotelImages";
 import Header from "./components/Header";
+import Loading from "../../../components/Loading/Loading";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
   const Navigate = useNavigate();
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     basicInfo: {
       hotelName: "",
@@ -45,6 +48,14 @@ export default function CreateListing() {
     console.log("Form Data Updated:", formData);
   }, [formData]);
 
+  useEffect(() => {
+    // Simulate page load time
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   const updateFormData = (section, data) => {
     setFormData((prev) => ({
       ...prev,
@@ -54,6 +65,7 @@ export default function CreateListing() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
       const formDataToSend = new FormData();
@@ -99,8 +111,14 @@ export default function CreateListing() {
     } catch (error) {
       console.error("⚠️ Server error:", error);
       toast.error("Server error. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  if (isPageLoading) {
+    return <Loading type="page" color="#ffd700" message="Loading Create Listing..." />;
+  }
 
   return (
     <div className="create-listing-container">
@@ -134,8 +152,16 @@ export default function CreateListing() {
           />
 
           <div className="list-submit-button-container">
-            <button type="submit" className="list-submit-button">
-              Create Hotel Listing
+            <button 
+              type="submit" 
+              className="list-submit-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Loading type="button" size="small" color="white" />
+              ) : (
+                "Create Hotel Listing"
+              )}
             </button>
           </div>
         </form>

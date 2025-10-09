@@ -1,6 +1,5 @@
 import './LandingPage.css';
 import HeroSection from './components/HeroSection';
-import OffersSection from './components/OffersSection';
 import TrendingDestinations from './components/TrendingDestinations';
 import BrowseAndExplore from './components/BrowseAndExplore';
 import TripPlannerAndDeals from './components/TripPlannerAndDeals';
@@ -13,7 +12,6 @@ export default function LandingPage() {
     <div className="landing-page">
       <Navbar />
       <HeroSection />
-      <OffersSection />
       <TrendingDestinations />
       <BrowseAndExplore />
       <TripPlannerAndDeals />

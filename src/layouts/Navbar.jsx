@@ -1,20 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, User } from "lucide-react";
+import { Heart, User, UserPlus, Users } from "lucide-react";
 
 import "./Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("Stays");
+  const [clicked, setClicked] = useState(false);
 
-  const navigationLinks = [
-    "Stays", 
-    "Flights", 
-    "Car Rentals", 
-    "Attractions", 
-    "Airport Taxis"
-  ];
+  const navigationLinks = ["Stays", "Car Rentals"];
 
   return (
     <nav id="navbar">
@@ -44,10 +39,25 @@ export default function Navbar() {
         {/* Right side actions */}
         <div className="nav-actions">
           <div className="nav-links">
-            <button className="wishlist-btn">
-              <Heart size={18} />
-              <span>Wishlist</span>
+            <button
+              className="land-register-btn"
+              onClick={() => setClicked(!clicked)}
+            >
+              <Users size={18} />
+              <span>Register</span>
             </button>
+            {clicked && (
+              <div className="other-opt">
+                <button className="vender" onClick={() => navigate("/vender-register")}>
+                  <UserPlus size={18} />
+                  <span>Vender Register</span>
+                </button>
+                <button className="customer" onClick={() => navigate("/customer-register")}>
+                  <UserPlus size={18} />
+                  <span>Customer Register</span>
+                </button>
+              </div>
+            )}
             <a
               href="/sign-in"
               className="land-signin-btn"

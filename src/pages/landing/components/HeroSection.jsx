@@ -1,5 +1,6 @@
 import { Calendar, MapPin, User, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import Loading from "../../../components/Loading";
 import "./HeroSection.css";
 
 export default function HeroSection() {
@@ -12,6 +13,7 @@ export default function HeroSection() {
   const [showCheckInPicker, setShowCheckInPicker] = useState(false);
   const [showCheckOutPicker, setShowCheckOutPicker] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [isSearching, setIsSearching] = useState(false);
   
   const checkInRef = useRef(null);
   const checkOutRef = useRef(null);
@@ -113,6 +115,21 @@ export default function HeroSection() {
   const isDateInRange = (date) => {
     if (!date || !checkInDate || !checkOutDate) return false;
     return date > checkInDate && date < checkOutDate;
+  };
+
+  const handleSearch = async () => {
+    setIsSearching(true);
+    
+    // Simulate search API call
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Here you would normally navigate to search results
+      console.log('Search completed');
+    } catch (error) {
+      console.error('Search failed:', error);
+    } finally {
+      setIsSearching(false);
+    }
   };
 
   return (
@@ -265,7 +282,17 @@ export default function HeroSection() {
                 </div>
               </div>
               <div className="search-btn-row">
-                <button className="search-btn">Search Hotels</button>
+                <button 
+                  className="search-btn" 
+                  onClick={handleSearch}
+                  disabled={isSearching}
+                >
+                  {isSearching ? (
+                    <Loading type="button" size="small" color="dark" text="Searching..." />
+                  ) : (
+                    'Search Hotels'
+                  )}
+                </button>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./AllHotels.css";
+import Loading from "../../components/Loading";
 import {
   Search,
   Calendar,
@@ -16,12 +17,16 @@ import Navbar from "../../layouts/Navbar";
 import HeroSection from "../landing/components/HeroSection";
 
 const AllHotels = () => {
+  const navigate = useNavigate();
   const [hotelData, setHotelData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     const fetchProperties = async () => {
+      setIsLoading(true);
       try {
         const res = await fetch("http://localhost:1000/all-hotels");
         if (!res.ok) throw new Error("Failed to fetch properties");
@@ -46,6 +51,8 @@ const AllHotels = () => {
         setHotelData(mappedData);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchProperties();
@@ -69,6 +76,10 @@ const AllHotels = () => {
       default:
         return "#6b7280";
     }
+  };
+
+  const handleViewHotel = (hotelId) => {
+    navigate(`/hotel/${hotelId}`);
   };
 
   return (
@@ -110,7 +121,11 @@ const AllHotels = () => {
             <div className="properties-grid">
               {filteredProperties.length > 0 ? (
                 filteredProperties.map((property) => (
-                  <div key={property.id} className="property-card">
+                  <div
+                    key={property.id}
+                    className="property-card"
+                    onClick={() => handleViewHotel(property.id)}
+                  >
                     <div className="property-image">
                       <img src={property.image} alt={property.name} />
                       <div className="property-status">
@@ -155,7 +170,10 @@ const AllHotels = () => {
                       </div>
 
                       <div className="property-actions">
-                        <button className="prop-action-btn view-btn">
+                        <button 
+                          className="prop-action-btn view-btn"
+                          onClick={() => handleViewHotel(property.id)}
+                        >
                           View
                         </button>
                         <button className="prop-action-btn edit-btn">

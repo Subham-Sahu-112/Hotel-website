@@ -61,23 +61,56 @@ nav {
   position: relative;
 }
 
-.wishlist-btn {
+.land-register-btn {
+  border: 2px solid #ffd700;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ff9500;
+  background: white;
   display: flex;
   align-items: center;
   gap: 6px;
-  background: none;
-  border: none;
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 10px 15px;
   transition: all 0.2s ease;
 }
 
-.wishlist-btn:hover {
-  background-color: #f5f5f5;
+.land-register-btn:hover {
+  background-color: #ffd700;
+  color: black;
+}
+
+.other-opt {
+  width: max-content;
+  border: 2px solid #e6e6e6;
+  border-radius: 6px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 110%;
+  left: -17%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.vender, .customer {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vender:hover, .customer:hover {
+  background-color: #ffd700;
+  border-radius: 6px;
 }
 
 .land-signin-btn {
@@ -118,93 +151,11 @@ nav {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.register-btn {
-  width: 150px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.register-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.down {
-  display: flex;
-  align-items: center;
-  transition: all 0.2s ease;
-}
-
-.register-btn p {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0;
-}
-
-.reg-dropdown-menu {
-  border: 2px solid white;
-  border-radius: 0.4rem;
-  background-color: rgba(255, 255, 255, 0.3);
-  position: absolute;
-  top: 48px;
-  left: 27%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 1rem;
-  transition: all 0.2s ease;
-  overflow: hidden;
-}
-
-.reg-dropdown-item {
-  width: 100%;
-  border-top: 2px solid white;
-  border-bottom: 2px solid white;
-  text-align: center;
-  text-decoration: none;
-  color: white;
-  padding: 0.5rem 3rem;
-  transition: all 0.2s ease;
-}
-
-.reg-dropdown-item:hover {
-  background-color: white;
-  color: #003580;
-}
-
-.sign-in-btn {
-  width: 120px;
-  background: white;
-  border: none;
-  color: #003580;
-  padding: 16px;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.sign-in-btn:hover {
-  background: #f0f8ff;
-}
-
 /* Navigation Links */
 .nav-center {
+  width: 60%;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 24px;
   margin-left: 40px;
