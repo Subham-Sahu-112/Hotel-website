@@ -11,6 +11,10 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import CreateListing from "./pages/vendor/Create-listing/CreateListing";
 import AllHotels from "./pages/all-hotels/AllHotels";
 import HotelView from "./pages/Hotel-View/HotelView";
+import MyBookings from "./pages/bookings/MyBookings";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminRegister from "./pages/admin/AdminRegister";
+import AdminPanel from "./pages/admin/AdminPanel";
 
 function App() {
   return (
@@ -19,18 +23,23 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/vender-register" element={<VendorRegister />} />
         <Route path="/customer-register" element={<CustomerRegister />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/sign-in" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/vender/*" element={<Vendor />} />
         <Route path="/add-listings" element={<CreateListing />} />
         <Route path="/all-hotels" element={<AllHotels />} />
         <Route path="/hotel/:id" element={<HotelView />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/admin/register" element={<AdminRegister />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminPanel />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
 
       {/* Toast Notifications */}
       <ToastContainer
-        position="top-right"
+        position="top-left"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={true}

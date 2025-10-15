@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import VendorLayout from "./VendorLayout";
 import "./Dashboard.css";
 import {
@@ -11,14 +13,57 @@ import {
 } from "lucide-react";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const dashboardStats = [
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to view dashboard');
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch('http://localhost:1000/vendor/bookings/dashboard/stats', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setDashboardData(data.data);
+      } else {
+        if (response.status === 401) {
+          toast.error('Session expired. Please login again.');
+          navigate('/login');
+        } else {
+          toast.error(data.message || 'Failed to fetch dashboard data');
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      toast.error('Unable to fetch dashboard data. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const dashboardStats = dashboardData ? [
     {
       id: 1,
       title: "Total Bookings",
-      value: "1,234",
-      change: "+12.3% from last month",
+      value: dashboardData.totalBookings.toString(),
+      change: "All time bookings",
       changeType: "positive",
       icon: <Calendar />,
       color: "blue",
@@ -26,8 +71,8 @@ const Dashboard = () => {
     {
       id: 2,
       title: "Monthly Revenue",
-      value: "$45,678",
-      change: "+8.7% from last month",
+      value: `₹${dashboardData.monthlyRevenue.toLocaleString()}`,
+      change: "Current month",
       changeType: "positive",
       icon: <Banknote />,
       color: "green",
@@ -35,8 +80,8 @@ const Dashboard = () => {
     {
       id: 3,
       title: "Active Listings",
-      value: "24",
-      change: "+2 from last month",
+      value: dashboardData.activeListings.toString(),
+      change: "Your properties",
       changeType: "positive",
       icon: <House />,
       color: "orange",
@@ -44,64 +89,16 @@ const Dashboard = () => {
     {
       id: 4,
       title: "Occupancy Rate",
-      value: "87.5%",
-      change: "+5.2% from last month",
+      value: `${dashboardData.occupancyRate}%`,
+      change: "Current occupancy",
       changeType: "positive",
       icon: <ChartNoAxesCombined />,
       color: "purple",
     },
-  ];
+  ] : [];
 
-  const recentBookings = [
-    {
-      id: "BK001",
-      guest: "John Doe",
-      property: "Sunset Villa",
-      dates: "2024-01-15 - 2024-01-18",
-      amount: "$450",
-      status: "confirmed",
-    },
-    {
-      id: "BK002",
-      guest: "Sarah Wilson",
-      property: "Ocean View Suite",
-      dates: "2024-01-20 - 2024-01-25",
-      amount: "$875",
-      status: "pending",
-    },
-    {
-      id: "BK003",
-      guest: "Mike Johnson",
-      property: "Mountain Retreat",
-      dates: "2024-01-12 - 2024-01-15",
-      amount: "$320",
-      status: "completed",
-    },
-  ];
-
-  const recentActivity = [
-    {
-      id: 1,
-      type: "booking",
-      message: "New booking received for Ocean View Suite",
-      time: "2 minutes ago",
-      icon: "📅",
-    },
-    {
-      id: 2,
-      type: "payment",
-      message: "Payment of $450 received from John Doe",
-      time: "1 hour ago",
-      icon: "💵",
-    },
-    {
-      id: 3,
-      type: "review",
-      message: "New 5-star review for Sunset Villa",
-      time: "3 hours ago",
-      icon: "👤",
-    },
-  ];
+  const recentBookings = dashboardData?.recentBookings || [];
+  const recentActivity = dashboardData?.recentActivity || [];
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -128,6 +125,19 @@ const Dashboard = () => {
         return status;
     }
   };
+
+  if (loading) {
+    return (
+      <VendorLayout>
+        <div className="vender-dashboard">
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <div style={{ fontSize: '48px', marginBottom: '20px' }}>⏳</div>
+            <h2>Loading Dashboard...</h2>
+          </div>
+        </div>
+      </VendorLayout>
+    );
+  }
 
   return (
     <VendorLayout>

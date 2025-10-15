@@ -1,94 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import VendorLayout from './VendorLayout';
 import './Bookings.css';
 
 const Bookings = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [bookings, setBookings] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const bookings = [
-    {
-      id: 'BK001',
-      guest: {
-        name: 'John Doe',
-        email: 'john.doe@email.com',
-        phone: '+1 234 567 8900',
-        avatar: '👨'
-      },
-      property: 'Sunset Villa Resort',
-      roomType: 'Deluxe Ocean View',
-      checkIn: '2024-01-15',
-      checkOut: '2024-01-18',
-      nights: 3,
-      guests: 2,
-      amount: 1350,
-      status: 'confirmed',
-      paymentStatus: 'paid',
-      bookingDate: '2024-01-10',
-      specialRequests: 'Late check-in, Extra towels'
-    },
-    {
-      id: 'BK002',
-      guest: {
-        name: 'Sarah Johnson',
-        email: 'sarah.j@email.com',
-        phone: '+1 345 678 9012',
-        avatar: '👩'
-      },
-      property: 'Ocean View Hotel',
-      roomType: 'Standard Room',
-      checkIn: '2024-01-20',
-      checkOut: '2024-01-25',
-      nights: 5,
-      guests: 1,
-      amount: 1600,
-      status: 'pending',
-      paymentStatus: 'pending',
-      bookingDate: '2024-01-18',
-      specialRequests: 'Ground floor room'
-    },
-    {
-      id: 'BK003',
-      guest: {
-        name: 'Michael Brown',
-        email: 'michael.b@email.com',
-        phone: '+1 456 789 0123',
-        avatar: '👨'
-      },
-      property: 'Mountain Lodge',
-      roomType: 'Family Suite',
-      checkIn: '2024-01-25',
-      checkOut: '2024-01-28',
-      nights: 3,
-      guests: 4,
-      amount: 840,
-      status: 'completed',
-      paymentStatus: 'paid',
-      bookingDate: '2024-01-15',
-      specialRequests: 'Crib for baby'
-    },
-    {
-      id: 'BK004',
-      guest: {
-        name: 'Emily Davis',
-        email: 'emily.d@email.com',
-        phone: '+1 567 890 1234',
-        avatar: '👩'
-      },
-      property: 'City Center Suites',
-      roomType: 'Executive Suite',
-      checkIn: '2024-02-01',
-      checkOut: '2024-02-03',
-      nights: 2,
-      guests: 2,
-      amount: 760,
-      status: 'cancelled',
-      paymentStatus: 'refunded',
-      bookingDate: '2024-01-20',
-      specialRequests: 'None'
+  useEffect(() => {
+    fetchBookings();
+  }, [filterStatus]);
+
+  const fetchBookings = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to view bookings');
+        navigate('/login');
+        return;
+      }
+
+      const url = filterStatus === 'all' 
+        ? 'http://localhost:1000/vendor/bookings'
+        : `http://localhost:1000/vendor/bookings?status=${filterStatus}`;
+
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Transform backend data to match frontend format
+        const transformedBookings = data.data.bookings.map(booking => ({
+          id: booking.bookingReference,
+          guest: {
+            name: booking.customerName,
+            email: booking.customerEmail,
+            phone: booking.customerPhone,
+            avatar: booking.customerName.charAt(0).toUpperCase()
+          },
+          property: booking.hotelName,
+          roomType: booking.roomType,
+          checkIn: booking.checkInDate,
+          checkOut: booking.checkOutDate,
+          nights: booking.numberOfNights,
+          guests: booking.numberOfGuests,
+          amount: booking.totalAmount,
+          status: booking.bookingStatus,
+          paymentStatus: booking.paymentStatus,
+          bookingDate: booking.createdAt,
+          specialRequests: booking.specialRequests || 'None'
+        }));
+
+        setBookings(transformedBookings);
+        setStats(data.data.stats);
+      } else {
+        if (response.status === 401) {
+          toast.error('Session expired. Please login again.');
+          navigate('/login');
+        } else {
+          toast.error(data.message || 'Failed to fetch bookings');
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+      toast.error('Unable to fetch bookings. Please try again.');
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = booking.guest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -134,9 +124,22 @@ const Bookings = () => {
     });
   };
 
-  const totalRevenue = bookings
+  const totalRevenue = stats?.totalRevenue || bookings
     .filter(b => b.paymentStatus === 'paid')
     .reduce((sum, b) => sum + b.amount, 0);
+
+  if (loading) {
+    return (
+      <VendorLayout>
+        <div className="bookings">
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <div style={{ fontSize: '48px', marginBottom: '20px' }}>⏳</div>
+            <h2>Loading Bookings...</h2>
+          </div>
+        </div>
+      </VendorLayout>
+    );
+  }
 
   return (
     <VendorLayout>
@@ -149,11 +152,11 @@ const Bookings = () => {
           </div>
           <div className="header-stats">
             <div className="book-stat-item">
-              <span className="book-stat-number">{bookings.length}</span>
+              <span className="book-stat-number">{stats?.total || bookings.length}</span>
               <span className="book-stat-label">Total Bookings</span>
             </div>
             <div className="book-stat-item">
-              <span className="book-stat-number">${totalRevenue.toLocaleString()}</span>
+              <span className="book-stat-number">₹{totalRevenue.toLocaleString()}</span>
               <span className="book-stat-label">Revenue</span>
             </div>
           </div>
@@ -190,28 +193,28 @@ const Bookings = () => {
           <div className="status-card">
             <div className="status-icon confirmed">📅</div>
             <div className="status-info">
-              <div className="status-number">{bookings.filter(b => b.status === 'confirmed').length}</div>
+              <div className="status-number">{stats?.confirmed || bookings.filter(b => b.status === 'confirmed').length}</div>
               <div className="status-label">Confirmed</div>
             </div>
           </div>
           <div className="status-card">
             <div className="status-icon pending">⏳</div>
             <div className="status-info">
-              <div className="status-number">{bookings.filter(b => b.status === 'pending').length}</div>
+              <div className="status-number">{stats?.pending || bookings.filter(b => b.status === 'pending').length}</div>
               <div className="status-label">Pending</div>
             </div>
           </div>
           <div className="status-card">
             <div className="status-icon completed">✅</div>
             <div className="status-info">
-              <div className="status-number">{bookings.filter(b => b.status === 'completed').length}</div>
+              <div className="status-number">{stats?.completed || bookings.filter(b => b.status === 'completed').length}</div>
               <div className="status-label">Completed</div>
             </div>
           </div>
           <div className="status-card">
             <div className="status-icon cancelled">❌</div>
             <div className="status-info">
-              <div className="status-number">{bookings.filter(b => b.status === 'cancelled').length}</div>
+              <div className="status-number">{stats?.cancelled || bookings.filter(b => b.status === 'cancelled').length}</div>
               <div className="status-label">Cancelled</div>
             </div>
           </div>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './VendorSidebar.css';
+import { toast } from 'react-toastify';
 
 const VendorSidebar = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -52,6 +54,14 @@ const VendorSidebar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userType');
+    navigate('/login');
+    toast.success('Logged out successfully');
+  }
 
   return (
     <>
@@ -105,6 +115,7 @@ const VendorSidebar = () => {
               <div className="user-email">vendor@hotel.com</div>
             </div>
           </div>
+          <button className="ven-logout-btn" onClick={handleLogout}>Logout</button>
         </div>
 
         {/* Close button for mobile */}

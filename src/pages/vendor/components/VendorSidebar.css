@@ -111,8 +111,11 @@
 
 /* Footer */
 .sidebar-footer {
-  padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 20px;
   margin-top: auto;
 }
 
@@ -149,6 +152,22 @@
 .user-email {
   font-size: 12px;
   color: #94a3b8;
+}
+
+.ven-logout-btn {
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.ven-logout-btn:hover {
+  background: white;
+  color: #1e293b;
 }
 
 /* Mobile Controls */

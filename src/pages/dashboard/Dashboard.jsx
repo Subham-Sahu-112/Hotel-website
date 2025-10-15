@@ -5,23 +5,8 @@ import StatsCards from './components/StatsCards';
 import RevenueChart from './components/RevenueChart';
 import BookingsChart from './components/BookingsChart';
 import SearchBar from './components/SearchBar';
-import Loading from '../../components/Loading/Loading';
 
 export default function Dashboard() {
-  const [isPageLoading, setIsPageLoading] = useState(true);
-  const [isDataLoading, setIsDataLoading] = useState(false);
-
-  useEffect(() => {
-    // Simulate page load time
-    const timer = setTimeout(() => {
-      setIsPageLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isPageLoading) {
-    return <Loading type="page" color="#ffd700" message="Loading Dashboard..." />;
-  }
   return (
     <div className="dashboard">
       <Sidebar />

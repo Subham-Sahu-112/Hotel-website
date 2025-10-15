@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "./AllHotels.css";
-import Loading from "../../components/Loading";
 import {
   Search,
   Calendar,
@@ -18,15 +17,19 @@ import HeroSection from "../landing/components/HeroSection";
 
 const AllHotels = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [hotelData, setHotelData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSearching, setIsSearching] = useState(false);
+  
+  // Get search parameters from URL
+  const locationParam = searchParams.get("location") || "";
+  const checkInParam = searchParams.get("checkIn") || "";
+  const checkOutParam = searchParams.get("checkOut") || "";
+  const guestsParam = searchParams.get("guests") || "";
 
   useEffect(() => {
     const fetchProperties = async () => {
-      setIsLoading(true);
       try {
         const res = await fetch("http://localhost:1000/all-hotels");
         if (!res.ok) throw new Error("Failed to fetch properties");
@@ -46,25 +49,38 @@ const AllHotels = () => {
           bookings: 0, // if you track bookings later
           type: hotel.roomTypes[0]?.roomType || "standard",
           rating: hotel.basicInfo.starRating || 0,
+          maxGuests: Math.max(...hotel.roomTypes.map(room => room.maxGuests || 2)),
         }));
 
         setHotelData(mappedData);
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchProperties();
   }, []);
 
+  // Update searchQuery when locationParam changes
+  useEffect(() => {
+    if (locationParam) {
+      setSearchQuery(locationParam);
+    }
+  }, [locationParam]);
+
   const filteredProperties = hotelData.filter((property) => {
+    // Location search filter
     const matchesSearch =
       property.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       property.location?.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    // Status filter
     const matchesFilter =
       filterStatus === "all" || property.status === filterStatus;
-    return matchesSearch && matchesFilter;
+    
+    // Guest count filter (if provided in search params)
+    const matchesGuests = !guestsParam || property.maxGuests >= parseInt(guestsParam);
+    
+    return matchesSearch && matchesFilter && matchesGuests;
   });
 
   const getStatusColor = (status) => {
@@ -98,13 +114,47 @@ const AllHotels = () => {
             </Link>
           </div>
 
+          {/* Search Summary */}
+          {locationParam && (
+            <div className="search-summary">
+              <h3 className="search-summary-title">
+                Search Results for "{locationParam}"
+              </h3>
+              <div className="search-summary-details">
+                {checkInParam && checkOutParam && (
+                  <div className="search-detail-item">
+                    <Calendar size={16} />
+                    <span>
+                      {new Date(checkInParam).toLocaleDateString()} - {new Date(checkOutParam).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
+                {guestsParam && (
+                  <div className="search-detail-item">
+                    <Users size={16} />
+                    <span>{guestsParam} {parseInt(guestsParam) === 1 ? 'guest' : 'guests'}</span>
+                  </div>
+                )}
+                <div className="search-detail-item">
+                  <MapPin size={16} />
+                  <span>{filteredProperties.length} {filteredProperties.length === 1 ? 'hotel' : 'hotels'} found</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Hotels Section */}
           <section className="hotels-section">
             <div className="section-header">
               <div className="header-1">
-                <h2 className="section-title">Last-minute hotels near you</h2>
+                <h2 className="section-title">
+                  {locationParam ? `Hotels in ${locationParam}` : 'Last-minute hotels near you'}
+                </h2>
                 <p className="section-subtitle">
-                  Find a great deal on a hotel for tonight or an upcoming trip
+                  {locationParam 
+                    ? `Showing ${filteredProperties.length} available properties`
+                    : 'Find a great deal on a hotel for tonight or an upcoming trip'
+                  }
                 </p>
               </div>
               <div className="time-filters">

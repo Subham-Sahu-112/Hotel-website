@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./VendorRegister.css";
-import Loading from "../../components/Loading";
 import {
   Building,
   Contact,
@@ -47,7 +46,6 @@ const VendorRegister = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(true);
   const [businessTypeDropdownOpen, setBusinessTypeDropdownOpen] =
     useState(false);
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
@@ -55,11 +53,6 @@ const VendorRegister = () => {
 
   // Close dropdowns when clicking outside
   useEffect(() => {
-    // Simulate page loading
-    const timer = setTimeout(() => {
-      setIsPageLoading(false);
-    }, 1200);
-
     const handleClickOutside = (event) => {
       if (!event.target.closest(".ven-form-dropdown")) {
         setBusinessTypeDropdownOpen(false);
@@ -69,7 +62,6 @@ const VendorRegister = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      clearTimeout(timer);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
@@ -251,13 +243,6 @@ const VendorRegister = () => {
 
   return (
     <>
-      {isPageLoading && (
-        <Loading 
-          type="page" 
-          text="Preparing vendor registration..." 
-          overlay={true} 
-        />
-      )}
       <div className="vendor-register">
       <div className="ven-register-container">
         {/* Header */}
@@ -768,11 +753,7 @@ const VendorRegister = () => {
                 disabled={isSubmitting}
                 className={`submit-button ${isSubmitting ? "submitting" : ""}`}
               >
-                {isSubmitting ? (
-                  <Loading type="button" size="small" color="white" text="Completing Registration..." />
-                ) : (
-                  "Complete Registration"
-                )}
+                {isSubmitting ? "Completing Registration..." : "Complete Registration"}
               </button>
             </div>
           </form>

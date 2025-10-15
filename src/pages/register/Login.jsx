@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Login.css";
-import Loading from "../../components/Loading";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
@@ -15,16 +14,11 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(true);
 
-  // Page loading effect
+  // User details
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsPageLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
+    console.log(formData);
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -54,16 +48,44 @@ const Login = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Mock successful login
-      toast.success("Login successful! Welcome back!");
-      
-      // Redirect to dashboard or previous page
-      navigate("/dashboard");
+      // Determine the API endpoint based on user type
+      const endpoint = formData.userType === 'customer' 
+        ? 'http://localhost:1000/customer/login'
+        : 'http://localhost:1000/vender/login';
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Store token and user info in localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userType', formData.userType);
+        localStorage.setItem('user', JSON.stringify(data.vendor));
+
+        toast.success("Login successful! Welcome back!");
+        
+        // Redirect based on user type
+        if (formData.userType === 'customer') {
+          navigate("/all-hotels");
+        } else {
+          navigate("/vender/dashboard");
+        }
+      } else {
+        toast.error(data.message || "Login failed. Please check your credentials.");
+      }
     } catch (error) {
-      toast.error("Login failed. Please check your credentials.");
+      console.error('Login error:', error);
+      toast.error("Unable to connect to server. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -71,13 +93,6 @@ const Login = () => {
 
   return (
     <>
-      {isPageLoading && (
-        <Loading 
-          type="page" 
-          text="Preparing login..." 
-          overlay={true} 
-        />
-      )}
       <div className="login">
       <div className="login-container">
         {/* Header */}
@@ -196,11 +211,7 @@ const Login = () => {
               className={`login-submit-btn ${isLoading ? 'loading' : ''}`}
               disabled={isLoading}
             >
-              {isLoading ? (
-                <Loading type="button" size="small" color="white" text="Signing in..." />
-              ) : (
-                "Sign In"
-              )}
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </form>
 

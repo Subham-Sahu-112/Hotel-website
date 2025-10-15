@@ -1,16 +1,18 @@
-nav {
+#navbar {
+  height: 90px;
   width: 100%;
   background: white;
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid #e6e6e6;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: height 0.3s ease-in-out;
 }
 
 .nav-container {
   max-width: 1200px;
-  height: 90px;
+  height: 100%;
   margin: auto;
   display: flex;
   align-items: center;
@@ -28,6 +30,7 @@ nav {
   height: 90px;
   width: auto;
   margin-right: 8px;
+  transition: height 0.3s ease-in-out;
 }
 
 .nav-center {
@@ -95,7 +98,8 @@ nav {
   overflow: hidden;
 }
 
-.vender, .customer {
+.vender,
+.customer {
   background: none;
   border: none;
   color: #333;
@@ -108,9 +112,51 @@ nav {
   transition: all 0.2s ease;
 }
 
-.vender:hover, .customer:hover {
+.vender:hover,
+.customer:hover {
   background-color: #ffd700;
   border-radius: 6px;
+}
+
+.land-bookings-btn {
+  background: none;
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 400 !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.land-bookings-btn:hover {
+  background-color: #ffd700;
+  color: black;
+}
+
+.land-logout-btn {
+  background: none;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 400 !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.land-logout-btn:hover {
+  background-color: #ef4444;
+  color: white;
 }
 
 .land-signin-btn {

@@ -1,19 +1,18 @@
 import { Calendar, MapPin, User, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import Loading from "../../../components/Loading";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./HeroSection.css";
 
 export default function HeroSection() {
-  const [selectedLocation, setSelectedLocation] = useState(
-    "Search destinations"
-  );
+  const navigate = useNavigate();
+  const [location, setLocation] = useState("");
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
-  const [guests, setGuests] = useState("2 guests");
+  const [guestCount, setGuestCount] = useState(2);
   const [showCheckInPicker, setShowCheckInPicker] = useState(false);
   const [showCheckOutPicker, setShowCheckOutPicker] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [isSearching, setIsSearching] = useState(false);
   
   const checkInRef = useRef(null);
   const checkOutRef = useRef(null);
@@ -117,19 +116,34 @@ export default function HeroSection() {
     return date > checkInDate && date < checkOutDate;
   };
 
-  const handleSearch = async () => {
-    setIsSearching(true);
-    
-    // Simulate search API call
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      // Here you would normally navigate to search results
-      console.log('Search completed');
-    } catch (error) {
-      console.error('Search failed:', error);
-    } finally {
-      setIsSearching(false);
+  const handleSearch = () => {
+    // Validate search inputs
+    if (!location.trim()) {
+      toast.error("Please enter a destination");
+      return;
     }
+
+    if (!checkInDate) {
+      toast.error("Please select check-in date");
+      return;
+    }
+
+    if (!checkOutDate) {
+      toast.error("Please select check-out date");
+      return;
+    }
+
+    // Create search params
+    const searchParams = new URLSearchParams({
+      location: location.trim(),
+      checkIn: checkInDate.toISOString(),
+      checkOut: checkOutDate.toISOString(),
+      guests: guestCount.toString()
+    });
+
+    // Navigate to all-hotels page with search parameters
+    navigate(`/all-hotels?${searchParams.toString()}`);
+    toast.success("Searching hotels...");
   };
 
   return (
@@ -154,6 +168,8 @@ export default function HeroSection() {
                     <input
                       placeholder="Search destinations"
                       className="input-field"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
                     />
                   </div>
                 </div>
@@ -277,21 +293,24 @@ export default function HeroSection() {
                   <label className="field-label">Guests</label>
                   <div className="icon-input-wrapper">
                     <Users className="input-icon" size={20} />
-                    <input placeholder="2 guests" className="input-field" />
+                    <input 
+                      type="number"
+                      min="1"
+                      max="20"
+                      placeholder="2 guests" 
+                      className="input-field"
+                      value={guestCount}
+                      onChange={(e) => setGuestCount(parseInt(e.target.value) || 1)}
+                    />
                   </div>
                 </div>
               </div>
               <div className="search-btn-row">
                 <button 
-                  className="search-btn" 
+                  className="hero-search-btn" 
                   onClick={handleSearch}
-                  disabled={isSearching}
                 >
-                  {isSearching ? (
-                    <Loading type="button" size="small" color="dark" text="Searching..." />
-                  ) : (
-                    'Search Hotels'
-                  )}
+                  Search Hotels
                 </button>
               </div>
             </div>

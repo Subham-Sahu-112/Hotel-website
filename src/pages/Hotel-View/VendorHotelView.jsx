@@ -21,7 +21,6 @@ import {
   Trash2,
   Upload
 } from 'lucide-react';
-import Loading from '../../components/Loading/Loading';
 import { toast } from 'react-toastify';
 import './HotelView.css';
 
@@ -29,7 +28,6 @@ const VendorHotelView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [hotel, setHotel] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -57,7 +55,6 @@ const VendorHotelView = () => {
   useEffect(() => {
     const fetchHotelData = async () => {
       try {
-        setIsLoading(true);
         const response = await fetch(`http://localhost:1000/hotels/${id}`);
         
         if (!response.ok) {
@@ -75,8 +72,6 @@ const VendorHotelView = () => {
       } catch (error) {
         console.error('Error fetching hotel:', error);
         setError(error.message);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -182,10 +177,6 @@ const VendorHotelView = () => {
     }
   };
 
-  if (isLoading) {
-    return <Loading type="page" color="#ffd700" message="Loading Hotel Details..." />;
-  }
-
   if (error) {
     return (
       <div className="error-container">
@@ -253,7 +244,7 @@ const VendorHotelView = () => {
                 disabled={isSaving}
               >
                 {isSaving ? (
-                  <Loading type="button" size="small" color="white" />
+                  "Saving..."
                 ) : (
                   <>
                     <Save size={20} />

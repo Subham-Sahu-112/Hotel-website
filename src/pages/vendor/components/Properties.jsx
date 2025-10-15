@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import VendorLayout from "./VendorLayout";
-import Loading from "../../../components/Loading/Loading";
 import "./Properties.css";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +8,6 @@ const Properties = () => {
   const [propertiesData, setPropertiesData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -37,8 +35,6 @@ const Properties = () => {
         setPropertiesData(mappedData);
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchProperties();
@@ -70,16 +66,6 @@ const Properties = () => {
 
   const handleClickListing = (id) => {
     navigate(`/vender/properties/${id}`);
-  }
-
-  if (isLoading) {
-    return (
-      <VendorLayout>
-        <div className="properties">
-          <Loading type="card" color="#ffd700" message="Loading Properties..." />
-        </div>
-      </VendorLayout>
-    );
   }
 
   return (

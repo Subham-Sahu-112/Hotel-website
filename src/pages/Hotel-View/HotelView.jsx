@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { 
   ArrowLeft, 
   MapPin, 
@@ -17,18 +18,23 @@ import {
   Heart,
   Share2
 } from 'lucide-react';
-import Loading from '../../components/Loading/Loading';
 import './HotelView.css';
 
 const HotelView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [hotel, setHotel] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookingData, setBookingData] = useState({
+    checkInDate: '',
+    checkOutDate: '',
+    numberOfGuests: 1,
+    specialRequests: ''
+  });
 
   // Amenity icons mapping
   const amenityIcons = {
@@ -44,7 +50,6 @@ const HotelView = () => {
   useEffect(() => {
     const fetchHotelData = async () => {
       try {
-        setIsLoading(true);
         const response = await fetch(`http://localhost:1000/hotels/${id}`);
         
         if (!response.ok) {
@@ -61,8 +66,6 @@ const HotelView = () => {
       } catch (error) {
         console.error('Error fetching hotel:', error);
         setError(error.message);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -76,7 +79,106 @@ const HotelView = () => {
   }, [id]);
 
   const handleBookRoom = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error('Please login to book a room');
+      navigate('/login');
+      return;
+    }
     setIsBookingModalOpen(true);
+  };
+
+  const handleBookingInputChange = (e) => {
+    const { name, value } = e.target;
+    setBookingData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleConfirmBooking = async () => {
+    // Validate booking data
+    if (!bookingData.checkInDate || !bookingData.checkOutDate) {
+      toast.error('Please select check-in and check-out dates');
+      return;
+    }
+
+    const checkIn = new Date(bookingData.checkInDate);
+    const checkOut = new Date(bookingData.checkOutDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (checkIn < today) {
+      toast.error('Check-in date cannot be in the past');
+      return;
+    }
+
+    if (checkOut <= checkIn) {
+      toast.error('Check-out date must be after check-in date');
+      return;
+    }
+
+    if (!bookingData.numberOfGuests || bookingData.numberOfGuests < 1) {
+      toast.error('Please select number of guests');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:1000/bookings', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          hotelId: hotel._id,
+          roomType: selectedRoom.roomType,
+          numberOfRooms: 1,
+          checkInDate: bookingData.checkInDate,
+          checkOutDate: bookingData.checkOutDate,
+          numberOfGuests: parseInt(bookingData.numberOfGuests),
+          guestDetails: {
+            adults: parseInt(bookingData.numberOfGuests),
+            children: 0
+          },
+          specialRequests: bookingData.specialRequests,
+          paymentMethod: 'credit_card'
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success('Booking confirmed successfully!');
+        setIsBookingModalOpen(false);
+        // Reset booking data
+        setBookingData({
+          checkInDate: '',
+          checkOutDate: '',
+          numberOfGuests: 1,
+          specialRequests: ''
+        });
+        // Navigate to bookings page
+        setTimeout(() => {
+          navigate('/my-bookings');
+        }, 1500);
+      } else {
+        if (response.status === 401) {
+          toast.error('Session expired. Please login again.');
+          navigate('/login');
+        } else {
+          toast.error(data.message || 'Failed to create booking');
+        }
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      toast.error('Unable to create booking. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleImageSelect = (index) => {
@@ -86,10 +188,6 @@ const HotelView = () => {
   const handleGoBack = () => {
     navigate(-1);
   };
-
-  if (isLoading) {
-    return <Loading type="page" color="#ffd700" message="Loading Hotel Details..." />;
-  }
 
   if (error) {
     return (
@@ -311,53 +409,91 @@ const HotelView = () => {
                 ×
               </button>
             </div>
-            <div className="modal-content">
+            <div className="book-modal-content">
               <div className="booking-summary">
                 <h4>Booking Summary</h4>
-                <div className="summary-item">
+                <div className="book-summary-item">
                   <span>Hotel:</span>
                   <span>{hotel.basicInfo.hotelName}</span>
                 </div>
-                <div className="summary-item">
+                <div className="book-summary-item">
                   <span>Room Type:</span>
                   <span>{selectedRoom?.roomType}</span>
                 </div>
-                <div className="summary-item">
+                <div className="book-summary-item">
                   <span>Price per night:</span>
                   <span>₹{selectedRoom?.pricePerNight}</span>
                 </div>
-                <div className="summary-item">
+                <div className="book-summary-item">
                   <span>Max Guests:</span>
                   <span>{selectedRoom?.maxGuests}</span>
                 </div>
               </div>
               <div className="booking-form">
-                <div className="form-group">
+                <div className="book-form-group">
                   <label>Check-in Date</label>
-                  <input type="date" className="booking-input" />
+                  <input 
+                    type="date" 
+                    name="checkInDate"
+                    className="booking-input" 
+                    value={bookingData.checkInDate}
+                    onChange={handleBookingInputChange}
+                    min={new Date().toISOString().split('T')[0]}
+                    required
+                  />
                 </div>
-                <div className="form-group">
+                <div className="book-form-group">
                   <label>Check-out Date</label>
-                  <input type="date" className="booking-input" />
+                  <input 
+                    type="date" 
+                    name="checkOutDate"
+                    className="booking-input" 
+                    value={bookingData.checkOutDate}
+                    onChange={handleBookingInputChange}
+                    min={bookingData.checkInDate || new Date().toISOString().split('T')[0]}
+                    required
+                  />
                 </div>
-                <div className="form-group">
+                <div className="book-form-group">
                   <label>Number of Guests</label>
-                  <select className="booking-input">
+                  <select 
+                    name="numberOfGuests"
+                    className="booking-input"
+                    value={bookingData.numberOfGuests}
+                    onChange={handleBookingInputChange}
+                    required
+                  >
                     {[...Array(selectedRoom?.maxGuests || 4)].map((_, i) => (
                       <option key={i + 1} value={i + 1}>{i + 1} Guest{i > 0 ? 's' : ''}</option>
                     ))}
                   </select>
                 </div>
+                <div className="book-form-group">
+                  <label>Special Requests (Optional)</label>
+                  <textarea 
+                    name="specialRequests"
+                    className="booking-input booking-textarea" 
+                    placeholder="Any special requests or preferences..."
+                    value={bookingData.specialRequests}
+                    onChange={handleBookingInputChange}
+                    rows="3"
+                  />
+                </div>
               </div>
-              <div className="modal-actions">
+              <div className="book-modal-actions">
                 <button 
                   className="cancel-btn"
                   onClick={() => setIsBookingModalOpen(false)}
+                  disabled={isSubmitting}
                 >
                   Cancel
                 </button>
-                <button className="confirm-booking-btn">
-                  Confirm Booking
+                <button 
+                  className="confirm-booking-btn"
+                  onClick={handleConfirmBooking}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Booking...' : 'Confirm Booking'}
                 </button>
               </div>
             </div>

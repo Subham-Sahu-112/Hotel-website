@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './CustomerRegister.css';
 import { User, Mail, Lock, Phone, MapPin, Calendar, Shield } from 'lucide-react';
 import { toast } from 'react-toastify';
-import Loading from '../../components/Loading';
 
 const CustomerRegister = () => {
   const Navigate = useNavigate();
@@ -37,7 +36,6 @@ const CustomerRegister = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(true);
   const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
   const [isMobile] = useState(window.innerWidth <= 768);
@@ -62,11 +60,6 @@ const CustomerRegister = () => {
 
   // Close dropdowns when clicking outside
   useEffect(() => {
-    // Simulate page loading
-    const timer = setTimeout(() => {
-      setIsPageLoading(false);
-    }, 1500);
-
     const handleClickOutside = (event) => {
       if (!event.target.closest('.cust-form-dropdown')) {
         setGenderDropdownOpen(false);
@@ -76,7 +69,6 @@ const CustomerRegister = () => {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      clearTimeout(timer);
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
@@ -210,9 +202,9 @@ const CustomerRegister = () => {
           acceptPrivacy: false
         });
         
-        // Redirect to login or dashboard after 2 seconds
+        // Redirect to login after 2 seconds
         setTimeout(() => {
-           Navigate('/sign-in');
+           Navigate('/login');
         }, 2000);
         
       } else {
@@ -243,13 +235,6 @@ const CustomerRegister = () => {
 
   return (
     <>
-      {isPageLoading && (
-        <Loading 
-          type="page" 
-          text="Setting up registration form..." 
-          overlay={true} 
-        />
-      )}
       <div className="customer-register">
       <div className="cust-register-container">
         {/* Header */}
@@ -607,11 +592,7 @@ const CustomerRegister = () => {
                 disabled={isSubmitting}
                 className={`cust-submit-button ${isSubmitting ? 'submitting' : ''}`}
               >
-                {isSubmitting ? (
-                  <Loading type="button" size="small" color="white" text="Creating Account..." />
-                ) : (
-                  'Create Account'
-                )}
+                {isSubmitting ? 'Creating Account...' : 'Create Account'}
               </button>
               <p className="cust-login-link">
                 Already have an account? <a href="/login" className="cust-link">Sign in here</a>

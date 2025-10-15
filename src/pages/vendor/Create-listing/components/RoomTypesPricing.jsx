@@ -1,15 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import './RoomTypesPricing.css';
 
 export default function RoomTypesPricing({ data, onChange }) {
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+
+  // Fetch categories from admin panel
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:1000/categories/active');
+      const result = await response.json();
+
+      if (result.success) {
+        setCategories(result.data);
+      } else {
+        toast.error('Failed to load room categories');
+        console.error('Error loading categories:', result.message);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      toast.error('Unable to load room categories');
+    } finally {
+      setLoadingCategories(false);
+    }
+  };
+
+  // Build room type options from fetched categories
   const roomTypeOptions = [
-    { value: '', label: 'Select room type' },
-    { value: 'single', label: 'Single Room' },
-    { value: 'double', label: 'Double Room' },
-    { value: 'twin', label: 'Twin Room' },
-    { value: 'suite', label: 'Suite' },
-    { value: 'deluxe', label: 'Deluxe Room' },
-    { value: 'family', label: 'Family Room' }
+    { value: '', label: loadingCategories ? 'Loading categories...' : 'Select room type' },
+    ...categories.map(cat => ({
+      value: cat.name.toLowerCase().replace(/\s+/g, '-'), // Convert "Deluxe Room" to "deluxe-room"
+      label: cat.name
+    }))
   ];
 
   const handleRoomChange = (index, field, value) => {
@@ -64,6 +91,7 @@ export default function RoomTypesPricing({ data, onChange }) {
                 value={room.roomType}
                 onChange={(e) => handleRoomChange(index, 'roomType', e.target.value)}
                 className="form-select"
+                disabled={loadingCategories}
               >
                 {roomTypeOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -71,6 +99,11 @@ export default function RoomTypesPricing({ data, onChange }) {
                   </option>
                 ))}
               </select>
+              {categories.length === 0 && !loadingCategories && (
+                <p className="helper-text" style={{ color: '#f59e0b', fontSize: '12px', marginTop: '4px' }}>
+                  No categories available. Contact admin to add room categories.
+                </p>
+              )}
             </div>
 
             <div className="form-field">

@@ -6,13 +6,11 @@ import RoomTypesPricing from "./components/RoomTypesPricing";
 import ContactInformation from "./components/ContactInformation";
 import HotelImages from "./components/HotelImages";
 import Header from "./components/Header";
-import Loading from "../../../components/Loading/Loading";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
   const Navigate = useNavigate();
-  const [isPageLoading, setIsPageLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     basicInfo: {
@@ -47,14 +45,6 @@ export default function CreateListing() {
   useEffect(() => {
     console.log("Form Data Updated:", formData);
   }, [formData]);
-
-  useEffect(() => {
-    // Simulate page load time
-    const timer = setTimeout(() => {
-      setIsPageLoading(false);
-    }, 1200);
-    return () => clearTimeout(timer);
-  }, []);
 
   const updateFormData = (section, data) => {
     setFormData((prev) => ({
@@ -116,10 +106,6 @@ export default function CreateListing() {
     }
   };
 
-  if (isPageLoading) {
-    return <Loading type="page" color="#ffd700" message="Loading Create Listing..." />;
-  }
-
   return (
     <div className="create-listing-container">
       <div className="create-listing-wrapper">
@@ -157,11 +143,7 @@ export default function CreateListing() {
               className="list-submit-button"
               disabled={isSubmitting}
             >
-              {isSubmitting ? (
-                <Loading type="button" size="small" color="white" />
-              ) : (
-                "Create Hotel Listing"
-              )}
+              {isSubmitting ? "Creating..." : "Create Hotel Listing"}
             </button>
           </div>
         </form>
