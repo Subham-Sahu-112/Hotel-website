@@ -145,42 +145,34 @@ const AllHotels = () => {
 
           {/* Hotels Section */}
           <section className="hotels-section">
-            <div className="section-header">
+            <div className="hot-section-header">
               <div className="header-1">
-                <h2 className="section-title">
+                <h2 className="hot-section-title">
                   {locationParam ? `Hotels in ${locationParam}` : 'Last-minute hotels near you'}
                 </h2>
-                <p className="section-subtitle">
+                <p className="hot-section-subtitle">
                   {locationParam 
                     ? `Showing ${filteredProperties.length} available properties`
                     : 'Find a great deal on a hotel for tonight or an upcoming trip'
                   }
                 </p>
               </div>
-              <div className="time-filters">
-                <button className="time-filter-btn active">
-                  Hotels for tonight
-                </button>
-                <button className="time-filter-btn">
-                  Hotels for this weekend
-                </button>
-              </div>
             </div>
 
             {/* Properties Grid */}
-            <div className="properties-grid">
+            <div className="hot-properties-grid">
               {filteredProperties.length > 0 ? (
                 filteredProperties.map((property) => (
                   <div
                     key={property.id}
-                    className="property-card"
+                    className="hot-property-card"
                     onClick={() => handleViewHotel(property.id)}
                   >
-                    <div className="property-image">
+                    <div className="hot-property-image">
                       <img src={property.image} alt={property.name} />
-                      <div className="property-status">
+                      <div className="hot-property-status">
                         <span
-                          className="status-badge"
+                          className="hot-status-badge"
                           style={{
                             backgroundColor: getStatusColor(property.status),
                           }}
@@ -189,14 +181,14 @@ const AllHotels = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="property-content">
-                      <div className="property-heading">
+                    <div className="hot-property-content">
+                      <div className="hot-property-heading">
                         <h3 className="prop-property-name">{property.name}</h3>
-                        <div className="property-rating">
+                        <div className="hot-property-rating">
                           ⭐ {property.rating}
                         </div>
                       </div>
-                      <p className="property-location">
+                      <p className="hot-property-location">
                         📍 {property.location}
                       </p>
                       {property.rooms.map((room, idx) => (
@@ -210,29 +202,6 @@ const AllHotels = () => {
                           {property.rooms.length === 1 ? "room" : "rooms"}
                         </p>
                       ))}
-
-                      <div className="property-amenities">
-                        {(property.amenities || []).map((amenity, index) => (
-                          <span key={index} className="amenity-badge">
-                            {amenity}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="property-actions">
-                        <button 
-                          className="prop-action-btn view-btn"
-                          onClick={() => handleViewHotel(property.id)}
-                        >
-                          View
-                        </button>
-                        <button className="prop-action-btn edit-btn">
-                          Edit
-                        </button>
-                        <button className="prop-action-btn delete-btn">
-                          Delete
-                        </button>
-                      </div>
                     </div>
                   </div>
                 ))

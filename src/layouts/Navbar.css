@@ -226,6 +226,166 @@
   font-weight: 600;
 }
 
+/* Hamburger Menu Button */
+.hamburger-menu {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 8px;
+  transition: color 0.2s ease;
+}
+
+.hamburger-menu:hover {
+  color: #0066cc;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-bottom: 1px solid #e6e6e6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.mobile-nav-link {
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  background-color: #f5f5f5;
+  color: #0066cc;
+}
+
+.mobile-menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-action-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  /* border: none; */
+}
+
+.mobile-action-btn.register-btn {
+  background: white;
+  border: 2px solid #ffd700;
+  color: #ff9500;
+}
+
+.mobile-action-btn.register-btn:hover {
+  background-color: #ffd700;
+  color: black;
+}
+
+.mobile-action-btn.signin-btn {
+  background: white;
+  border: 1px solid #0066cc;
+  color: #0066cc;
+}
+
+.mobile-action-btn.signin-btn:hover {
+  background-color: #0066cc;
+  color: white;
+}
+
+.mobile-action-btn.bookings-btn {
+  background: white;
+  border: 1px solid #ffd700;
+  color: #ffd700;
+}
+
+.mobile-action-btn.bookings-btn:hover {
+  background-color: #ffd700;
+  color: black;
+}
+
+.mobile-action-btn.logout-btn {
+  background: white;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+.mobile-action-btn.logout-btn:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+.mobile-register-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.mobile-register-option {
+  background: white;
+  border: 1px solid #e6e6e6;
+  color: #333;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.mobile-register-option:hover {
+  background-color: #ffd700;
+  border-color: #ffd700;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav-container {
@@ -237,12 +397,21 @@
     font-size: 24px;
   }
 
-  .nav-actions {
-    gap: 8px;
+  .nav-center {
+    display: none;
   }
 
-  .nav-links {
-    gap: 8px;
+  .nav-actions {
+    display: none;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
   }
 
   .nav-link-item {
@@ -303,5 +472,25 @@
 
   .nav-tab {
     padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  #navbar {
+    height: 80px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-container {
+    width: 100%;
+  }
+  
+  .nav-logo img {
+    height: 70px !important;
+  }
+
+  .register-btn {
+    margin: 0;
   }
 }

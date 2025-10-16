@@ -298,7 +298,7 @@
     max-width: 100%;
   }
 
-  .search-field {
+  .search-field-group {
     padding: 16px;
   }
 
@@ -308,15 +308,36 @@
 }
 
 @media (max-width: 480px) {
-  .hero-title {
+  .land-hero-title {
     font-size: 28px;
   }
 
-  .hero-subtitle {
+  .land-hero-subtitle {
     font-size: 14px;
   }
 
-  .search-field {
+  .search-fields-grid {
+    gap: 0;
+  }
+
+  .search-field-group {
     padding: 12px;
+  }
+  
+  .icon-input-wrapper {
+    height: 2.5rem;
+  }
+
+  .input-field {
+    padding: 0;
+  }
+
+  .search-btn-row {
+    margin-top: 0.5rem;
+  }
+
+  .hero-search-btn {
+    border-radius: 5px;
+    padding: 10px 20px;
   }
 }
