@@ -68,10 +68,22 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok && data.success) {
+        // Safely access nested data with checks
+        if (!data.data || !data.data.token) {
+          toast.error("Invalid server response - missing token");
+          setIsLoading(false);
+          return;
+        }
+
         // Store token and user info in localStorage
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('userType', formData.userType);
-        localStorage.setItem('user', JSON.stringify(formData.userType === 'customer' ? data.data.customer : data.data.vender));
+        
+        // Store user data - check both customer and vender fields
+        const userData = formData.userType === 'customer' ? data.data.customer : data.data.vender;
+        if (userData) {
+          localStorage.setItem('user', JSON.stringify(userData));
+        }
 
         toast.success("Login successful! Welcome back!");
         
@@ -82,7 +94,9 @@ const Login = () => {
           navigate("/vender/dashboard");
         }
       } else {
-        toast.error(data.message || "Login failed. Please check your credentials.");
+        // Handle error response
+        const errorMessage = data.message || data.error || "Login failed. Please check your credentials.";
+        toast.error(errorMessage);
       }
     } catch (error) {
       console.error('Login error:', error);
