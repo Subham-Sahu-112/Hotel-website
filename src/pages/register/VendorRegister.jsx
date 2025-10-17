@@ -11,6 +11,7 @@ import {
   Lock,
   MapPinHouse,
 } from "lucide-react";
+import { getApiEndpoint } from "../../config/apiConfig";
 
 const VendorRegister = () => {
   const Navigate = useNavigate();
@@ -196,7 +197,7 @@ const VendorRegister = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:1000/vender/register", {
+      const response = await fetch(getApiEndpoint("/vender/register"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

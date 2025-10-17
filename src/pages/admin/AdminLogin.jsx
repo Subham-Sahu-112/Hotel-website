@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./AdminLogin.css";
+import { getApiEndpoint } from "../../config/apiConfig";
 
 function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ function AdminLogin() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:1000/admin/login", {
+      const response = await fetch(getApiEndpoint("/admin/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

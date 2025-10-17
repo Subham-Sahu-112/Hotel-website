@@ -8,6 +8,7 @@ import HotelImages from "./components/HotelImages";
 import Header from "./components/Header";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { getApiEndpoint } from "../../../config/apiConfig";
 
 export default function CreateListing() {
   const Navigate = useNavigate();
@@ -83,7 +84,7 @@ export default function CreateListing() {
       formDataToSend.append("roomTypes", JSON.stringify(formData.roomTypes));
 
       // Send to backend
-      const response = await fetch("http://localhost:1000/hotels", {
+      const response = await fetch(getApiEndpoint("/hotels"), {
         method: "POST",
         body: formDataToSend,
       });

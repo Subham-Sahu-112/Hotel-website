@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./AdminPanel.css";
+import { getApiEndpoint } from "../../config/apiConfig";
 
 function AdminPanel() {
   const [categories, setCategories] = useState([]);
@@ -31,7 +32,7 @@ function AdminPanel() {
   const fetchCategories = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch("http://localhost:1000/categories", {
+      const response = await fetch(getApiEndpoint("/categories"), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -101,9 +102,9 @@ function AdminPanel() {
     
     try {
       const token = localStorage.getItem("adminToken");
-      const url = editingCategory
-        ? `http://localhost:1000/categories/${editingCategory._id}`
-        : "http://localhost:1000/categories";
+      const url = editingCategory._id
+        ? getApiEndpoint(`/categories/${editingCategory._id}`)
+        : getApiEndpoint("/categories");
       
       const method = editingCategory ? "PUT" : "POST";
 
@@ -138,7 +139,7 @@ function AdminPanel() {
 
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch(`http://localhost:1000/categories/${id}`, {
+      const response = await fetch(getApiEndpoint(`/categories/${id}`), {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -163,7 +164,7 @@ function AdminPanel() {
     try {
       const token = localStorage.getItem("adminToken");
       const response = await fetch(
-        `http://localhost:1000/categories/${id}/toggle-status`,
+        getApiEndpoint(`/categories/${id}/toggle-status`),
         {
           method: "PATCH",
           headers: {

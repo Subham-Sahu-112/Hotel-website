@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import VendorLayout from "./VendorLayout";
 import "./Properties.css";
 import { useNavigate } from "react-router-dom";
+import { getApiEndpoint } from "../../../config/apiConfig";
 
 const Properties = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Properties = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await fetch("http://localhost:1000/all-hotels");
+        const res = await fetch(getApiEndpoint("/all-hotels"));
         if (!res.ok) throw new Error("Failed to fetch properties");
         const data = await res.json();
         console.log("Fetched data:", data);

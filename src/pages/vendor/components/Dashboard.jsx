@@ -11,6 +11,7 @@ import {
   House,
   Plus,
 } from "lucide-react";
+import { getApiEndpoint } from "../../../config/apiConfig";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Dashboard = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:1000/vendor/bookings/dashboard/stats', {
+      const response = await fetch(getApiEndpoint('/vendor/bookings/dashboard/stats'), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

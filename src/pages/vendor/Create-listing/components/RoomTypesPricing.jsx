@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import './RoomTypesPricing.css';
+import { getApiEndpoint } from '../../../../config/apiConfig';
 
 export default function RoomTypesPricing({ data, onChange }) {
   const [categories, setCategories] = useState([]);
@@ -13,7 +14,7 @@ export default function RoomTypesPricing({ data, onChange }) {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:1000/categories/active');
+      const response = await fetch(getApiEndpoint('/categories/active'));
       const result = await response.json();
 
       if (result.success) {

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import VendorLayout from './VendorLayout';
 import './Bookings.css';
+import { getApiEndpoint } from '../../../config/apiConfig';
 
 const Bookings = () => {
   const navigate = useNavigate();
@@ -27,8 +28,8 @@ const Bookings = () => {
       }
 
       const url = filterStatus === 'all' 
-        ? 'http://localhost:1000/vendor/bookings'
-        : `http://localhost:1000/vendor/bookings?status=${filterStatus}`;
+        ? getApiEndpoint('/vendor/bookings')
+        : getApiEndpoint(`/vendor/bookings?status=${filterStatus}`);
 
       const response = await fetch(url, {
         headers: {

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './CustomerRegister.css';
 import { User, Mail, Lock, Phone, MapPin, Calendar, Shield } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { getApiEndpoint } from '../../config/apiConfig';
 
 const CustomerRegister = () => {
   const Navigate = useNavigate();
@@ -162,7 +163,7 @@ const CustomerRegister = () => {
     
     try {
       // API call to backend
-      const response = await fetch('http://localhost:1000/customer/register', {
+      const response = await fetch(getApiEndpoint('/customer/register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

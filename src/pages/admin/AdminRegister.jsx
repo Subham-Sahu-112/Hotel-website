@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./AdminRegister.css";
+import { getApiEndpoint } from "../../config/apiConfig";
 
 function AdminRegister() {
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ function AdminRegister() {
 
   const checkAdminExists = async () => {
     try {
-      const response = await fetch("http://localhost:1000/admin/check-exists");
+      const response = await fetch(getApiEndpoint("/admin/check-exists"));
       const data = await response.json();
 
       if (data.success && data.exists) {
@@ -62,7 +63,7 @@ function AdminRegister() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:1000/admin/register", {
+      const response = await fetch(getApiEndpoint("/admin/register"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

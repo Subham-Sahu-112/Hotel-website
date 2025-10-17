@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Login.css";
 import { Lock, Mail, Eye, EyeOff } from "lucide-react";
+import { getApiEndpoint } from "../../config/apiConfig";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,8 +51,8 @@ const Login = () => {
     try {
       // Determine the API endpoint based on user type
       const endpoint = formData.userType === 'customer' 
-        ? 'http://localhost:1000/customer/login'
-        : 'http://localhost:1000/vender/login';
+        ? getApiEndpoint('/customer/login')
+        : getApiEndpoint('/vender/login');
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -68,9 +69,9 @@ const Login = () => {
 
       if (response.ok && data.success) {
         // Store token and user info in localStorage
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.data.token);
         localStorage.setItem('userType', formData.userType);
-        localStorage.setItem('user', JSON.stringify(data.vendor));
+        localStorage.setItem('user', JSON.stringify(formData.userType === 'customer' ? data.data.customer : data.data.vender));
 
         toast.success("Login successful! Welcome back!");
         

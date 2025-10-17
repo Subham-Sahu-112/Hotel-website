@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './HotelView.css';
+import { getApiEndpoint } from '../../config/apiConfig';
 
 const VendorHotelView = () => {
   const { id } = useParams();
@@ -55,7 +56,7 @@ const VendorHotelView = () => {
   useEffect(() => {
     const fetchHotelData = async () => {
       try {
-        const response = await fetch(`http://localhost:1000/hotels/${id}`);
+        const response = await fetch(getApiEndpoint(`/hotels/${id}`));
         
         if (!response.ok) {
           throw new Error('Hotel not found');
@@ -153,7 +154,7 @@ const VendorHotelView = () => {
     try {
       setIsSaving(true);
       
-      const response = await fetch(`http://localhost:1000/hotels/${id}`, {
+      const response = await fetch(getApiEndpoint(`/hotels/${id}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

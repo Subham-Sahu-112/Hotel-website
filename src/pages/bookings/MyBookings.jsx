@@ -15,6 +15,7 @@ import {
 import { toast } from 'react-toastify';
 import Navbar from '../../layouts/Navbar';
 import './MyBookings.css';
+import { getApiEndpoint } from '../../config/apiConfig';
 
 const MyBookings = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const MyBookings = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:1000/bookings', {
+      const response = await fetch(getApiEndpoint('/bookings'), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -88,7 +89,7 @@ const MyBookings = () => {
     setCancellingId(bookingId);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:1000/bookings/${bookingId}/cancel`, {
+      const response = await fetch(getApiEndpoint(`/bookings/${bookingId}/cancel`), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

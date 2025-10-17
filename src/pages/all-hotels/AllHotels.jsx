@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Navbar from "../../layouts/Navbar";
 import HeroSection from "../landing/components/HeroSection";
+import { getApiEndpoint } from "../../config/apiConfig";
 
 const AllHotels = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const AllHotels = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await fetch("http://localhost:1000/all-hotels");
+        const res = await fetch(getApiEndpoint("/all-hotels"));
         if (!res.ok) throw new Error("Failed to fetch properties");
         const data = await res.json();
         console.log("Fetched data:", data);

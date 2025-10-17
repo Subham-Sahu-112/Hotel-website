@@ -19,6 +19,7 @@ import {
   Share2,
 } from "lucide-react";
 import "./HotelView.css";
+import { getApiEndpoint } from "../../config/apiConfig";
 
 const HotelView = () => {
   const { id } = useParams();
@@ -50,7 +51,7 @@ const HotelView = () => {
   useEffect(() => {
     const fetchHotelData = async () => {
       try {
-        const response = await fetch(`http://localhost:1000/hotels/${id}`);
+        const response = await fetch(getApiEndpoint(`/hotels/${id}`));
 
         if (!response.ok) {
           throw new Error("Hotel not found");
@@ -127,7 +128,7 @@ const HotelView = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:1000/bookings", {
+      const response = await fetch(getApiEndpoint("/bookings"), {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
